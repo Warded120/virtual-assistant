@@ -2,6 +2,7 @@ spring:
   application:
     name: bot
 
-bot:
-  username: YourBotUsername
-  token: ${TELEGRAM_BOT_TOKEN}
+telegram:
+  bot:
+    username: chnu_virtual_assistant_bot
+    token: ${TELEGRAM_BOT_TOKEN}
