@@ -25,7 +25,9 @@ public class CurrencyController {
      */
     @GetMapping
     public ResponseEntity<CurrencyResponse> getExchangeRates(
-            @RequestParam(defaultValue = "USD") String base) {
+            @RequestParam(defaultValue = "USD") String base,
+            @RequestParam(defaultValue = "UAH") String target,
+            @RequestParam(defaultValue = "1") float amount) {
         
         log.info("Received request for exchange rates with base: {}", base);
         

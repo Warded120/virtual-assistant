@@ -1,8 +1,10 @@
-package com.ivan.bot.handler;
+package com.ivan.bot.consumer;
 
-import org.springframework.beans.factory.annotation.Value;
+import com.ivan.bot.config.BotConfig;
+import com.ivan.bot.handler.CommandHandler;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
 import org.telegram.telegrambots.longpolling.BotSession;
 import org.telegram.telegrambots.longpolling.interfaces.LongPollingUpdateConsumer;
 import org.telegram.telegrambots.longpolling.starter.AfterBotRegistration;
@@ -12,25 +14,21 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
+import java.util.Map;
 
+@Slf4j
 @Component
+@RequiredArgsConstructor
 public class MyAmazingBot implements SpringLongPollingBot, LongPollingSingleThreadUpdateConsumer {
 
     private final TelegramClient telegramClient;
+    private final BotConfig botConfig;
 
-    @Value("${telegram.bot.token}")
-    private String botToken;
-
-    @Value("${telegram.bot.username}")
-    private String botUsername;
-
-    public MyAmazingBot() {
-        telegramClient = new OkHttpTelegramClient(getBotToken());
-    }
+    private final Map<String, CommandHandler> handlers;
 
     @Override
     public String getBotToken() {
-        return "8614873811:AAGzt_tGzZov99JRt47-yl0TCwDQrLkug9s";
+        return botConfig.getToken();
     }
 
     @Override
@@ -40,17 +38,14 @@ public class MyAmazingBot implements SpringLongPollingBot, LongPollingSingleThre
 
     @Override
     public void consume(Update update) {
+        log.info("Received update");
         if (update.hasMessage() && update.getMessage().hasText()) {
-            String message_text = update.getMessage().getText();
-            long chat_id = update.getMessage().getChatId();
 
-            SendMessage message = SendMessage
-                    .builder()
-                    .chatId(chat_id)
-                    .text("You wrote: " + message_text)
-                    .build();
+            CommandHandler commandHandler = handlers.get(update.getMessage().getText().trim());
+            SendMessage message = commandHandler.handle(update);
+
             try {
-                telegramClient.execute(message); // Sending our message object to user
+                telegramClient.execute(message);
             } catch (TelegramApiException e) {
                 e.printStackTrace();
             }

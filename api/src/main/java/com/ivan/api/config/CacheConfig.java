@@ -1,24 +1,21 @@
 package com.ivan.api.config;
 
-import com.github.benmanes.caffeine.cache.Caffeine;
-import org.springframework.cache.CacheManager;
-import org.springframework.cache.caffeine.CaffeineCacheManager;
+import com.ivan.api.cache.GenericCache;
+import com.ivan.api.dto.CurrencyResponse;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import java.util.concurrent.TimeUnit;
+import java.time.Duration;
+import java.util.Optional;
 
 @Configuration
 public class CacheConfig {
 
+    @Value("${cache.item.expiration}")
+    private Duration ttl;
+
     @Bean
-    public CacheManager cacheManager() {
-        CaffeineCacheManager cacheManager = new CaffeineCacheManager(
-            "weatherCache", "currencyCache", "newsCache"
-        );
-        cacheManager.setCaffeine(Caffeine.newBuilder()
-            .maximumSize(500)
-            .expireAfterWrite(10, TimeUnit.MINUTES)
-            .recordStats());
-        return cacheManager;
+    public GenericCache<String, Optional<CurrencyResponse.ExternalCurrencyResponse>> currencyResponseCache() {
+        return new GenericCache<>(ttl);
     }
 }
