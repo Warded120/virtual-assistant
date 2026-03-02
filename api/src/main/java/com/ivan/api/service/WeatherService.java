@@ -1,60 +1,26 @@
 package com.ivan.api.service;
 
+import com.ivan.api.client.weather.WeatherApiClient;
 import com.ivan.api.dto.WeatherResponse;
 import com.ivan.api.exception.ExternalApiException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.reactive.function.client.WebClientResponseException;
-import java.time.Duration;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class WeatherService {
 
-    private final WebClient webClient;
-    
-    @Value("${api.weather.url}")
-    private String weatherApiUrl;
-    
-    @Value("${api.weather.key}")
-    private String weatherApiKey;
-    
-    @Value("${api.weather.timeout}")
-    private long timeout;
+    private final WeatherApiClient weatherApiClient;
 
-    public WeatherService(WebClient.Builder webClientBuilder) {
-        this.webClient = webClientBuilder.build();
-    }
-
-    @Cacheable(value = "weatherCache", key = "#city")
     public WeatherResponse getWeather(String city) {
         log.info("Fetching weather for city: {}", city);
-        
-        try {
-            WeatherResponse.ExternalWeatherResponse externalResponse = webClient.get()
-                .uri(uriBuilder -> uriBuilder
-                    .scheme("https")
-                    .host("api.openweathermap.org")
-                    .path("/data/2.5/weather")
-                    .queryParam("q", city)
-                    .queryParam("appid", weatherApiKey)
-                    .queryParam("units", "metric")
-                    .build())
-                .retrieve()
-                .bodyToMono(WeatherResponse.ExternalWeatherResponse.class)
-                .timeout(Duration.ofMillis(timeout))
-                .block();
 
-            if (externalResponse == null) {
-                throw new ExternalApiException("No response from weather API");
-            }
+        WeatherResponse.ExternalWeatherResponse externalResponse = weatherApiClient.getWeather(city, null, null)
+                .orElseThrow(() -> new ExternalApiException("Something went wrong during weather API request"));
 
-            log.info("Successfully fetched weather for city: {}", city);
-            
-            return WeatherResponse.builder()
+        return WeatherResponse.builder()
                 .city(externalResponse.getName())
                 .country(externalResponse.getSys().getCountry())
                 .temperature(externalResponse.getMain().getTemp())
@@ -64,17 +30,5 @@ public class WeatherService {
                 .windSpeed(externalResponse.getWind().getSpeed())
                 .timestamp(System.currentTimeMillis())
                 .build();
-                
-        } catch (WebClientResponseException e) {
-            log.error("Weather API error for city {}: status={}, body={}", 
-                city, e.getStatusCode(), e.getResponseBodyAsString());
-            throw new ExternalApiException(
-                "Failed to fetch weather data: " + e.getMessage(), e);
-        } catch (Exception e) {
-            log.error("Unexpected error fetching weather for city {}: {}", 
-                city, e.getMessage(), e);
-            throw new ExternalApiException(
-                "Weather service unavailable: " + e.getMessage(), e);
-        }
     }
 }

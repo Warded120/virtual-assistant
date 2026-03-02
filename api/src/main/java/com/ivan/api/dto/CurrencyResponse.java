@@ -12,10 +12,7 @@ import java.util.Map;
 @AllArgsConstructor
 public class CurrencyResponse {
     
-    private String base;
-    private String date;
-    private Map<String, Double> rates;
-    private Long timestamp;
+    private Double result;
     
     @Data
     @NoArgsConstructor

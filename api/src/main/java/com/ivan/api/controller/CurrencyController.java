@@ -1,7 +1,7 @@
 package com.ivan.api.controller;
 
 import com.ivan.api.dto.CurrencyResponse;
-import com.ivan.api.service.CurrencyService;
+import com.ivan.api.service.CurrencyServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -13,15 +13,10 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class CurrencyController {
 
-    private final CurrencyService currencyService;
+    private final CurrencyServiceImpl currencyService;
 
     /**
-     * Отримати курси валют
-     * 
-     * @param base Базова валюта (за замовчуванням USD)
-     * @return Курси валют
-     * 
-     * Приклад: GET /api/v1/currency?base=EUR
+     * example: GET /api/v1/currency?base=EUR&target=UAH&amount=1
      */
     @GetMapping
     public ResponseEntity<CurrencyResponse> getExchangeRates(
@@ -34,26 +29,16 @@ public class CurrencyController {
         if (base == null || base.trim().isEmpty()) {
             throw new IllegalArgumentException("Base currency parameter is required");
         }
-        
-        CurrencyResponse response = currencyService.getExchangeRates(base.trim());
-        return ResponseEntity.ok(response);
-    }
 
-    /**
-     * Отримати курси валют (альтернативний шлях)
-     * 
-     * @param base Базова валюта
-     * @return Курси валют
-     * 
-     * Приклад: GET /api/v1/currency/EUR
-     */
-    @GetMapping("/{base}")
-    public ResponseEntity<CurrencyResponse> getExchangeRatesByPath(
-            @PathVariable String base) {
+        if (target == null || target.trim().isEmpty()) {
+            throw new IllegalArgumentException("Target currency parameter is required");
+        }
+
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Amount must be greater than zero");
+        }
         
-        log.info("Received path request for exchange rates with base: {}", base);
-        
-        CurrencyResponse response = currencyService.getExchangeRates(base);
+        CurrencyResponse response = currencyService.getExchangeRates(base, target, amount);
         return ResponseEntity.ok(response);
     }
 }

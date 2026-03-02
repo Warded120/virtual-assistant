@@ -1,4 +1,4 @@
-package com.ivan.api.client;
+package com.ivan.api.client.currency;
 
 import com.ivan.api.cache.GenericCache;
 import com.ivan.api.dto.CurrencyResponse;
