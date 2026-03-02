@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: bot
+
+bot:
+  username: YourBotUsername
+  token: ${TELEGRAM_BOT_TOKEN}
