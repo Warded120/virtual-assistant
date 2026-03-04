@@ -2,6 +2,7 @@ package com.ivan.bot.telegram;
 
 import com.ivan.bot.config.BotConfig;
 import com.ivan.bot.handler.CommandHandler;
+import com.ivan.bot.handler.impl.FreeTextHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -23,6 +24,7 @@ public class TelegramBot implements SpringLongPollingBot, LongPollingSingleThrea
 
     private final TelegramClient telegramClient;
     private final BotConfig botConfig;
+    private final FreeTextHandler freeTextHandler;
 
     private final Map<String, CommandHandler> handlers;
 
@@ -40,14 +42,32 @@ public class TelegramBot implements SpringLongPollingBot, LongPollingSingleThrea
     public void consume(Update update) {
         log.info("Received update");
         if (update.hasMessage() && update.getMessage().hasText()) {
+            String messageText = update.getMessage().getText().trim();
+            SendMessage message;
 
-            CommandHandler commandHandler = handlers.get(update.getMessage().getText().trim());
-            SendMessage message = commandHandler.handle(update);
+            // Check if it's a command (starts with /)
+            if (messageText.startsWith("/")) {
+                CommandHandler commandHandler = handlers.get(messageText);
+                if (commandHandler != null) {
+                    log.info("Processing command: {}", messageText);
+                    message = commandHandler.handle(update);
+                } else {
+                    log.warn("Unknown command: {}", messageText);
+                    message = SendMessage.builder()
+                            .chatId(update.getMessage().getChatId().toString())
+                            .text("Невідома команда. Використовуйте /start для допомоги.")
+                            .build();
+                }
+            } else {
+                // Process as free text
+                log.info("Processing free text message");
+                message = freeTextHandler.handle(update);
+            }
 
             try {
                 telegramClient.execute(message);
             } catch (TelegramApiException e) {
-                e.printStackTrace();
+                log.error("Error sending message", e);
             }
         }
     }
