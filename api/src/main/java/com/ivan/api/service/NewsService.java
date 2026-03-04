@@ -1,62 +1,27 @@
 package com.ivan.api.service;
 
+import com.ivan.api.client.news.NewsApiClient;
 import com.ivan.api.dto.NewsResponse;
 import com.ivan.api.exception.ExternalApiException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.reactive.function.client.WebClientResponseException;
-import java.time.Duration;
 import java.util.stream.Collectors;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class NewsService {
 
-    private final WebClient webClient;
-    
-    @Value("${api.news.url}")
-    private String newsApiUrl;
-    
-    @Value("${api.news.key}")
-    private String newsApiKey;
-    
-    @Value("${api.news.timeout}")
-    private long timeout;
+    private final NewsApiClient newsApiClient;
 
-    public NewsService(WebClient.Builder webClientBuilder) {
-        this.webClient = webClientBuilder.build();
-    }
+    public NewsResponse getTopHeadlines(String country) {
+        log.info("Fetching top headlines for country: {}", country);
 
-    @Cacheable(value = "newsCache", key = "#country + '-' + #category")
-    public NewsResponse getTopHeadlines(String country, String category) {
-        log.info("Fetching top headlines for country: {}, category: {}", country, category);
-        
-        try {
-            NewsResponse.ExternalNewsResponse externalResponse = webClient.get()
-                .uri(uriBuilder -> uriBuilder
-                    .scheme("https")
-                    .host("newsapi.org")
-                    .path("/v2/top-headlines")
-                    .queryParam("country", country)
-                    .queryParam("category", category)
-                    .queryParam("apiKey", newsApiKey)
-                    .build())
-                .retrieve()
-                .bodyToMono(NewsResponse.ExternalNewsResponse.class)
-                .timeout(Duration.ofMillis(timeout))
-                .block();
+        var externalResponse = newsApiClient.getNews(country, null)
+                .orElseThrow(() -> new ExternalApiException("No news data received from external API"));
 
-            if (externalResponse == null || !"ok".equals(externalResponse.getStatus())) {
-                throw new ExternalApiException("No valid response from news API");
-            }
-
-            log.info("Successfully fetched {} news articles", 
-                externalResponse.getTotalResults());
-            
-            return NewsResponse.builder()
+        return NewsResponse.builder()
                 .totalResults(externalResponse.getTotalResults())
                 .articles(externalResponse.getArticles().stream()
                     .map(article -> NewsResponse.Article.builder()
@@ -70,16 +35,5 @@ public class NewsService {
                     .collect(Collectors.toList()))
                 .timestamp(System.currentTimeMillis())
                 .build();
-                
-        } catch (WebClientResponseException e) {
-            log.error("News API error: status={}, body={}", 
-                e.getStatusCode(), e.getResponseBodyAsString());
-            throw new ExternalApiException(
-                "Failed to fetch news data: " + e.getMessage(), e);
-        } catch (Exception e) {
-            log.error("Unexpected error fetching news: {}", e.getMessage(), e);
-            throw new ExternalApiException(
-                "News service unavailable: " + e.getMessage(), e);
-        }
     }
 }

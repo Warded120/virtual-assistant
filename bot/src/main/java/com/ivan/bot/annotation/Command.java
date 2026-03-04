@@ -1,4 +1,4 @@
-package com.ivan.bot;
+package com.ivan.bot.annotation;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import java.lang.annotation.ElementType;

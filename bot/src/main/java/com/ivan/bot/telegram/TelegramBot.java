@@ -1,4 +1,4 @@
-package com.ivan.bot.consumer;
+package com.ivan.bot.telegram;
 
 import com.ivan.bot.config.BotConfig;
 import com.ivan.bot.handler.CommandHandler;
@@ -19,7 +19,7 @@ import java.util.Map;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class MyAmazingBot implements SpringLongPollingBot, LongPollingSingleThreadUpdateConsumer {
+public class TelegramBot implements SpringLongPollingBot, LongPollingSingleThreadUpdateConsumer {
 
     private final TelegramClient telegramClient;
     private final BotConfig botConfig;

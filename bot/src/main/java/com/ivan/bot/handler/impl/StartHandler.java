@@ -1,6 +1,6 @@
 package com.ivan.bot.handler.impl;
 
-import com.ivan.bot.Command;
+import com.ivan.bot.annotation.Command;
 import com.ivan.bot.handler.CommandHandler;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;

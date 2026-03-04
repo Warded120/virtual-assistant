@@ -1,6 +1,6 @@
 package com.ivan.bot.config;
 
-import com.ivan.bot.Command;
+import com.ivan.bot.annotation.Command;
 import com.ivan.bot.handler.CommandHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
