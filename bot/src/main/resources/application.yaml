@@ -1,3 +1,6 @@
+server:
+  port: 8081
+
 spring:
   application:
     name: bot
@@ -6,3 +9,12 @@ telegram:
   bot:
     username: chnu_virtual_assistant_bot
     token: ${TELEGRAM_BOT_TOKEN}
+
+api:
+  base-url: http://localhost:8080
+  news:
+    endpoint: /api/v1/news
+  weather:
+    endpoint: /api/v1/weather
+  currency:
+    endpoint: /api/v1/currency

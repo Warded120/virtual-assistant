@@ -20,7 +20,7 @@ public class NewsController {
      * example: GET /api/v1/news?country=ua
      */
     @GetMapping
-    public ResponseEntity<NewsResponse> getTopHeadlines(@RequestParam(defaultValue = "ua") String country) {
+    public ResponseEntity<NewsResponse> getTopHeadlines(@RequestParam(defaultValue = "us") String country) {
         log.info("Received request for news: country={}", country);
         
         if (country == null || country.trim().isEmpty()) {

@@ -20,7 +20,8 @@ public class WeatherController {
      */
     @GetMapping
     public ResponseEntity<WeatherResponse> getWeather(
-            @RequestParam String city) {
+            @RequestParam(defaultValue = "Kyiv") String city
+    ) {
         
         log.info("Received request for weather in city: {}", city);
         

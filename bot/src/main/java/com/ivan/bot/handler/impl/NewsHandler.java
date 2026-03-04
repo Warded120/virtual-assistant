@@ -1,7 +1,7 @@
 package com.ivan.bot.handler.impl;
 
 import com.ivan.bot.annotation.Command;
-import com.ivan.bot.dto.WeatherResponse;
+import com.ivan.bot.dto.NewsResponse;
 import com.ivan.bot.handler.CommandHandler;
 import com.ivan.bot.response.builder.SendMessageBuilder;
 import lombok.RequiredArgsConstructor;
@@ -12,20 +12,20 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 @Component
-@Command("/weather")
+@Command("/news")
 @RequiredArgsConstructor
-public class WeatherHandler implements CommandHandler {
+public class NewsHandler implements CommandHandler {
     private final RestTemplate restTemplate;
-    private final SendMessageBuilder<WeatherResponse> builder;
+    private final SendMessageBuilder<NewsResponse> builder;
 
-    @Value("${api.weather.endpoint}")
-    private String weatherEndpoint;
+    @Value("${api.news.endpoint}")
+    private String newsEndpoint;
 
     @Override
     public SendMessage handle(Update update) {
         String chatId = update.getMessage().getChatId().toString();
 
-        var response = restTemplate.getForObject(weatherEndpoint, WeatherResponse.class);
+        var response = restTemplate.getForObject(newsEndpoint, NewsResponse.class);
 
         return SendMessage.builder()
                 .chatId(chatId)

@@ -23,6 +23,9 @@ public class CurrencyServiceImpl {
         var result = externalResponse.getRates().get(target) * amount;
         return CurrencyResponse.builder()
             .result(result)
+            .base(baseCurrency)
+            .target(target)
+            .amount(amount)
             .build();
     }
 }

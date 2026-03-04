@@ -1,10 +1,9 @@
-package com.ivan.api.dto;
+package com.ivan.bot.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.bind.annotation.RequestParam;
 import java.util.Map;
 
 @Data
