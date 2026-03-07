@@ -4,19 +4,18 @@ import com.ivan.bot.handler.CommandHandler;
 import com.ivan.bot.service.TextAnalyzerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-import java.util.Map;
-
 @Slf4j
 @Component
+@Primary
 @RequiredArgsConstructor
-public class FreeTextHandler {
+public class NlpHandler implements CommandHandler {
 
     private final TextAnalyzerService textAnalyzerService;
-    private final Map<String, CommandHandler> handlers;
 
     /**
      * Handles free text input by analyzing it and routing to appropriate handler
@@ -35,11 +34,11 @@ public class FreeTextHandler {
         // Map intent to command
         String command = mapIntentToCommand(intent);
 
-        if (command != null && handlers.containsKey(command)) {
-            log.info("Routing to command: {}", command);
-            CommandHandler handler = handlers.get(command);
-            return handler.handle(update);
-        }
+//        if (command != null && handlers.containsKey(command)) {
+//            log.info("Routing to command: {}", command);
+//            CommandHandler handler = handlers.get(command);
+//            return handler.handle(update);
+//        }
 
         // If no intent detected, provide helpful message
         return SendMessage.builder()

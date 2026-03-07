@@ -15,6 +15,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 @Command("/weather")
 @RequiredArgsConstructor
 public class WeatherHandler implements CommandHandler {
+    //TODO: use feignClient instead of restTemplate (use ones in api as example)
     private final RestTemplate restTemplate;
     private final SendMessageBuilder<WeatherResponse> builder;
 
