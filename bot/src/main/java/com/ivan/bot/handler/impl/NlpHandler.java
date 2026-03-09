@@ -1,6 +1,6 @@
 package com.ivan.bot.handler.impl;
 
-import com.ivan.bot.handler.CommandHandler;
+import com.ivan.bot.service.NlpDecisionService;
 import com.ivan.bot.service.TextAnalyzerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,12 +10,13 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 @Slf4j
-@Component
 @Primary
+@Component
 @RequiredArgsConstructor
-public class NlpHandler implements CommandHandler {
+public class NlpHandler {
 
     private final TextAnalyzerService textAnalyzerService;
+    private final NlpDecisionService decisionService;
 
     /**
      * Handles free text input by analyzing it and routing to appropriate handler
@@ -34,17 +35,7 @@ public class NlpHandler implements CommandHandler {
         // Map intent to command
         String command = mapIntentToCommand(intent);
 
-//        if (command != null && handlers.containsKey(command)) {
-//            log.info("Routing to command: {}", command);
-//            CommandHandler handler = handlers.get(command);
-//            return handler.handle(update);
-//        }
-
-        // If no intent detected, provide helpful message
-        return SendMessage.builder()
-                .chatId(chatId)
-                .text(buildHelpMessage(text))
-                .build();
+        return decisionService.decideResponse(update, command);
     }
 
     /**

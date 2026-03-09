@@ -157,7 +157,7 @@ public class TextAnalyzerService {
         if (normalizedText.contains("USD") || normalizedText.contains("ДОЛАР")) {
             return "USD";
         }
-        if (normalizedText.contains("EUR") || normalizedText.contains("ЄВРО") || normalizedText.contains("ЕВРО")) {
+        if (normalizedText.contains("EUR") || normalizedText.contains("ЄВРО")) {
             return "EUR";
         }
         if (normalizedText.contains("UAH") || normalizedText.contains("ГРИВН")) {
