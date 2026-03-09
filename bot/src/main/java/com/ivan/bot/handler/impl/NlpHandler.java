@@ -25,7 +25,6 @@ public class NlpHandler {
      */
     public SendMessage handle(Update update) {
         String text = update.getMessage().getText();
-        String chatId = update.getMessage().getChatId().toString();
 
         log.info("Processing free text: {}", text);
 
