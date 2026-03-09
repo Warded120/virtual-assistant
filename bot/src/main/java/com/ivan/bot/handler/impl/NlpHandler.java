@@ -25,6 +25,7 @@ public class NlpHandler {
      */
     public SendMessage handle(Update update) {
         String text = update.getMessage().getText();
+        String chatId = update.getMessage().getChatId().toString();
 
         log.info("Processing free text: {}", text);
 
@@ -34,6 +35,13 @@ public class NlpHandler {
         // Map intent to command
         String command = mapIntentToCommand(intent);
 
+        if(command == null) {
+            log.warn("Could not determine intent for text: {}", text);
+            return SendMessage.builder()
+                    .chatId(chatId)
+                    .text(buildHelpMessage(text))
+                    .build();
+        }
         return decisionService.decideResponse(update, command);
     }
 
