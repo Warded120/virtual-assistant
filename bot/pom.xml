@@ -3,15 +3,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>4.0.3</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <groupId>com.ivan</groupId>
+        <artifactId>virtual-assistant</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <groupId>com.ivan</groupId>
     <artifactId>bot</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
     <name>bot</name>
     <description>bot</description>
 
@@ -21,38 +18,14 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <scope>annotationProcessor</scope>
-        </dependency>
-
-        <dependency>
             <groupId>org.telegram</groupId>
             <artifactId>telegrambots-springboot-longpolling-starter</artifactId>
-            <version>9.3.0</version> <!-- Use the latest version from Maven Central -->
+            <version>9.3.0</version>
         </dependency>
         <dependency>
             <groupId>org.telegram</groupId>
             <artifactId>telegrambots-client</artifactId>
-            <version>9.3.0</version> <!-- Use the same version as the starter -->
+            <version>9.3.0</version>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
-
 </project>
