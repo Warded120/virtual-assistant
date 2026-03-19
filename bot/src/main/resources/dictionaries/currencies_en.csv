@@ -15,9 +15,8 @@ BDT,Taka
 BGN,Bulgarian Lev
 BHD,Bahraini Dinar
 BIF,Burundi Franc
-BMD,Bermudian Dollar (customarily known as Bermuda Dollar)
+BMD,Bermudian Dollar
 BND,Brunei Dollar
-BOB BOV,Boliviano Mvdol
 BRL,Brazilian Real
 BSD,Bahamian Dollar
 BWP,Pula
@@ -26,25 +25,24 @@ BZD,Belize Dollar
 CAD,Canadian Dollar
 CDF,Congolese Franc
 CHF,Swiss Franc
-CLP CLF,Chilean Peso Unidades de fomento
+CLP,Chilean Peso
 CNY,Yuan Renminbi
-COP COU,Colombian Peso Unidad de Valor Real
+COP,Colombian Peso
 CRC,Costa Rican Colon
-CUP CUC,Cuban Peso Peso Convertible
-CVE,Cape Verde Escudo
 CZK,Czech Koruna
-DJF,Djibouti Franc
 DKK,Danish Krone
 DOP,Dominican Peso
 DZD,Algerian Dinar
-EEK,Kroon
 EGP,Egyptian Pound
-ERN,Nakfa
-ETB,Ethiopian Birr
 EUR,Euro
 FJD,Fiji Dollar
-FKP,Falkland Islands Pound
 GBP,Pound Sterling
+GBP,pound
+GBP,pounds
+GBP,gbp
+GBP,british pound
+GBP,quid
+GBP,quids
 GEL,Lari
 GHS,Cedi
 GIP,Gibraltar Pound
@@ -55,23 +53,23 @@ GYD,Guyana Dollar
 HKD,Hong Kong Dollar
 HNL,Lempira
 HRK,Croatian Kuna
-HTG USD,Gourde US Dollar
 HUF,Forint
 IDR,Rupiah
 ILS,New Israeli Sheqel
 INR,Indian Rupee
-INR BTN,Indian Rupee Ngultrum
 IQD,Iraqi Dinar
 IRR,Iranian Rial
 ISK,Iceland Krona
 JMD,Jamaican Dollar
 JOD,Jordanian Dinar
 JPY,Yen
+JPY,yens
+JPY,jpy
+JPY,japanese yen
 KES,Kenyan Shilling
 KGS,Som
 KHR,Riel
 KMF,Comoro Franc
-KPW,North Korean Won
 KRW,Won
 KWD,Kuwaiti Dinar
 KYD,Cayman Islands Dollar
@@ -94,7 +92,7 @@ MRO,Ouguiya
 MUR,Mauritius Rupee
 MVR,Rufiyaa
 MWK,Kwacha
-MXN MXV,Mexican Peso Mexican Unidad de Inversion (UDI)
+MXN,Mexican Peso
 MYR,Malaysian Ringgit
 MZN,Metical
 NGN,Naira
@@ -103,12 +101,15 @@ NOK,Norwegian Krone
 NPR,Nepalese Rupee
 NZD,New Zealand Dollar
 OMR,Rial Omani
-PAB USD,Balboa US Dollar
 PEN,Nuevo Sol
 PGK,Kina
 PHP,Philippine Peso
 PKR,Pakistan Rupee
 PLN,Zloty
+PLN,zlotys
+PLN,zloties
+PLN,pln
+PLN,polish zloty
 PYG,Guarani
 QAR,Qatari Rial
 RON,New Leu
@@ -126,7 +127,6 @@ SLL,Leone
 SOS,Somali Shilling
 SRD,Surinam Dollar
 STD,Dobra
-SVC USD,El Salvador Colon US Dollar
 SYP,Syrian Pound
 SZL,Lilangeni
 THB,Baht
@@ -139,33 +139,32 @@ TTD,Trinidad and Tobago Dollar
 TWD,New Taiwan Dollar
 TZS,Tanzanian Shilling
 UAH,Hryvnia
-UGX,Uganda Shilling
+UAH,hryvnias
+UAH,hryvni
+UAH,hryven
+UAH,uah
+UAH,hrn
+UAH,hrn.
+UAH,grivna
+UAH,grivnas
+UAH,grivni
+UAH,grivens
 USD,US Dollar
-UYU UYI,Peso Uruguayo Uruguay Peso en Unidades Indexadas
+USD,dollar
+USD,dollars
+USD,buck
+USD,bucks
+USD,usd
+USD,american dollar
+USD,greenback
+USD,greenbacks
+UYU,Peso Uruguayo
 UZS,Uzbekistan Sum
 VEF,Bolivar Fuerte
 VND,Dong
 VUV,Vatu
 WST,Tala
-XAF,CFA Franc BEAC
-XAG,Silver
-XAU,Gold
-XBA,Bond Markets Units European Composite Unit (EURCO)
-XBB,European Monetary Unit (E.M.U.-6)
-XBC,European Unit of Account 9(E.U.A.-9)
-XBD,European Unit of Account 17(E.U.A.-17)
-XCD,East Caribbean Dollar
-XDR,SDR
-XFU,UIC-Franc
-XOF,CFA Franc BCEAO
-XPD,Palladium
-XPF,CFP Franc
-XPT,Platinum
-XTS,Codes specifically reserved for testing purposes
 YER,Yemeni Rial
 ZAR,Rand
-ZAR LSL,Rand Loti
-ZAR NAD,Rand Namibia Dollar
 ZMK,Zambian Kwacha
 ZWL,Zimbabwe Dollar
-

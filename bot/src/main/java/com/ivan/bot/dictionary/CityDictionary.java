@@ -1,81 +1,98 @@
 package com.ivan.bot.dictionary;
 
+import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Component;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-/**
- * Transliteration-aware city dictionary.
- *
- * Why this exists:
- *   OpenNLP's en-ner-location.bin is trained on English text.
- *   Ukrainian city names written in Cyrillic ("Київ", "Харків") are
- *   invisible to it.  This dictionary maps every known spelling to a
- *   canonical English name that can be forwarded to weather APIs.
- *
- * Lookup is case-insensitive.
- *
- * The map key is the form the user might type; the value is the
- * canonical name used when calling the weather API.
- */
 @Component
 public class CityDictionary {
 
-    private static final Map<String, String> CITIES = Map.ofEntries(
-        Map.entry("київ",            "Kyiv"),
-        Map.entry("киев",            "Kyiv"),
-        Map.entry("харків",          "Kharkiv"),
-        Map.entry("харьков",         "Kharkiv"),
-        Map.entry("одеса",           "Odesa"),
-        Map.entry("одесса",          "Odesa"),
-        Map.entry("дніпро",          "Dnipro"),
-        Map.entry("дніпропетровськ", "Dnipro"),
-        Map.entry("запоріжжя",       "Zaporizhzhia"),
-        Map.entry("львів",           "Lviv"),
-        Map.entry("львов",           "Lviv"),
-        Map.entry("миколаїв",        "Mykolaiv"),
-        Map.entry("вінниця",         "Vinnytsia"),
-        Map.entry("полтава",         "Poltava"),
-        Map.entry("херсон",          "Kherson"),
-        Map.entry("черкаси",         "Cherkasy"),
-        Map.entry("суми",            "Sumy"),
-        Map.entry("луцьк",           "Lutsk"),
-        Map.entry("рівне",           "Rivne"),
-        Map.entry("ужгород",         "Uzhhorod"),
-        Map.entry("чернівці",        "Chernivtsi"),
-        Map.entry("чернігів",        "Chernihiv"),
-        Map.entry("тернопіль",       "Ternopil"),
-        Map.entry("хмельницький",    "Khmelnytskyi"),
-        Map.entry("івано-франківськ","Ivano-Frankivsk"),
-        Map.entry("житомир",         "Zhytomyr"),
-        Map.entry("кропивницький",   "Kropyvnytskyi"),
+    private final Map<String, String> citiesEn = new HashMap<>();
+    private final Map<String, String> citiesUk = new HashMap<>();
 
-        Map.entry("kyiv",            "Kyiv"),
-        Map.entry("kiev",            "Kyiv"),
-        Map.entry("kharkiv",         "Kharkiv"),
-        Map.entry("odesa",           "Odesa"),
-        Map.entry("odessa",          "Odesa"),
-        Map.entry("dnipro",          "Dnipro"),
-        Map.entry("lviv",            "Lviv"),
-        Map.entry("zaporizhzhia",    "Zaporizhzhia"),
+    @PostConstruct
+    private void loadCurrencies() {
+        loadCsv("dictionaries/cities_en.csv", citiesEn);
+        loadCsv("dictionaries/cities_uk.csv", citiesUk);
+    }
 
-        Map.entry("лондон",          "London"),
-        Map.entry("париж",           "Paris"),
-        Map.entry("берлін",          "Berlin"),
-        Map.entry("варшава",         "Warsaw"),
-        Map.entry("прага",           "Prague"),
-        Map.entry("відень",          "Vienna"),
-        Map.entry("рим",             "Rome"),
-        Map.entry("мадрид",          "Madrid"),
-        Map.entry("амстердам",       "Amsterdam"),
-        Map.entry("стокгольм",       "Stockholm"),
-        Map.entry("нью-йорк",        "New York"),
-        Map.entry("токіо",           "Tokyo"),
-        Map.entry("пекін",           "Beijing")
-    );
+    private void loadCsv(String resourcePath, Map<String, String> map) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(
+                getClass().getClassLoader().getResourceAsStream(resourcePath), StandardCharsets.UTF_8))) {
+            String line;
+            boolean first = true;
+            while ((line = reader.readLine()) != null) {
+                if (first) {
+                    first = false;
+                    continue;
+                }
+                String[] parts = line.split(",", 2);
+                if (parts.length == 2) {
+                    String city = parts[0].trim();
+                    String name = parts[1].trim();
+                    if (!name.isEmpty()) {
+                        map.put(name.toLowerCase(), city);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to load city dictionary: " + resourcePath, e);
+        }
+    }
 
-    public Optional<String> resolve(String word) {
-        return Optional.ofNullable(CITIES.get(word.toLowerCase()));
+    public String resolve(String token) {
+        var lowerToken = Optional.of(token)
+                .map(String::toLowerCase)
+                .orElse(null);
+
+        return Optional.of(lowerToken)
+                .map(this::resolveEn)
+                .orElseGet(() ->
+                        Optional.of(lowerToken)
+                                .map(this::resolveUk)
+                                .orElse(null)
+                );
+    }
+
+    private String resolveEn(String token) {
+        return Optional.of(token)
+                .map(citiesEn::get)
+                .orElseGet(() -> matchEn(token));
+    }
+
+    private String matchEn(String token) {
+        if(token == null || token.length() <= 3) {
+            return null;
+        }
+        for (Map.Entry<String, String> entry : citiesEn.entrySet()) {
+            if (entry.getKey().contains(token)) {
+                return entry.getValue();
+            }
+        }
+        return null;
+    }
+
+    private String resolveUk(String token) {
+        return Optional.of(token)
+                .map(citiesUk::get)
+                .orElseGet(() -> matchUk(token));
+    }
+
+    private String matchUk(String token) {
+        if(token == null || token.length() <= 3) {
+            return null;
+        }
+        for (Map.Entry<String, String> entry : citiesUk.entrySet()) {
+            if (entry.getKey().contains(token)) {
+                return entry.getValue();
+            }
+        }
+        return null;
     }
 }

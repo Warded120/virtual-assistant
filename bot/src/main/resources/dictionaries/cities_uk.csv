@@ -1,0 +1,609 @@
+city,name
+Kyiv,Київ
+Kyiv,Києві
+Kharkiv,Харків
+Kharkiv,Харкові
+Odesa,Одеса
+Odesa,Одесі
+Dnipro,Дніпро
+Dnipro,Дніпрі
+Donetsk,Донецьк
+Donetsk,Донецьку
+Zaporizhzhia,Запоріжжя
+Zaporizhzhia,Запоріжжі
+Lviv,Львів
+Lviv,Львові
+Kryvyi Rih,Кривий Ріг
+Kryvyi Rih,Кривому Розі
+Mykolaiv,Миколаїв
+Mykolaiv,Миколаєві
+Mariupol,Mаріуполь
+Mariupol,Маріуполі
+Luhansk,Луганськ
+Luhansk,Луганську
+Vinnytsia,Вінниця
+Vinnytsia,Вінниці
+Kherson,Херсон
+Kherson,Херсоні
+Poltava,Полтава
+Poltava,Полтаві
+Chernihiv,Чернігів
+Chernihiv,Чернігові
+Cherkasy,Черкаси
+Cherkasy,Черкасах
+Zhytomyr,Житомир
+Zhytomyr,Житомирі
+Sumy,Суми
+Sumy,Сумах
+Rivne,Рівне
+Rivne,Рівному
+Ivano-Frankivsk,Івано-Франківськ
+Ivano-Frankivsk,Івано-Франківську
+Ternopil,Тернопіль
+Ternopil,Тернополі
+Kamianets-Podilskyi,Кам'янець-Подільський
+Kamianets-Podilskyi,Кам'янці-Подільському
+Uzhhorod,Ужгород
+Uzhhorod,Ужгороді
+Bila Tserkva,Біла Церква
+Bila Tserkva,Білій Церкві
+Kremenchuk,Кременчук
+Kremenchuk,Кременчуці
+Sievierodonetsk,Сєвєродонецьк
+Sievierodonetsk,Сєвєродонецьку
+Melitopol,Мелітополь
+Melitopol,Мелітополі
+Kerch,Керч
+Kerch,Керчі
+Nikopol,Нікополь
+Nikopol,Нікополі
+Sloviansk,Слов'янськ
+Sloviansk,Слов'янську
+Berdiansk,Бердянськ
+Berdiansk,Бердянську
+Pavlohrad,Павлоград
+Pavlohrad,Павлограді
+Yevpatoria,Євпаторія
+Yevpatoria,Євпаторії
+Uman,Умань
+Uman,Умані
+Brovary,Бровари
+Brovary,Броварах
+Lysychansk,Лисичанськ
+Lysychansk,Лисичанську
+Kamianske,Кам'янське
+Kamianske,Кам'янському
+Oleksandriia,Олександрія
+Oleksandriia,Олександрії
+Okhtyrka,Охтирка
+Okhtyrka,Охтирці
+Shostka,Шостка
+Shostka,Шостці
+Kolomyia,Коломия
+Kolomyia,Коломиї
+Chervonohrad,Червоноград
+Chervonohrad,Червонограді
+Smila,Сміла
+Smila,Сміллі
+Novomoskovsk,Новомосковськ
+Novomoskovsk,Новомосковську
+Mukachevo,Мукачево
+Mukachevo,Мукачеві
+Drohobych,Дрогобич
+Drohobych,Дрогобичі
+Boryspil,Бориспіль
+Boryspil,Борисполі
+Konotop,Конотоп
+Konotop,Конотопі
+Boryslav,Борислав
+Boryslav,Бориславі
+Bucha,Буча
+Bucha,Бучі
+Vyshhorod,Вишгород
+Vyshhorod,Вишгороді
+Vyshneve,Вишневе
+Vyshneve,Вишневому
+Kalush,Калуш
+Kalush,Калуші
+Kostiantynivka,Костянтинівка
+Kostiantynivka,Костянтинівці
+Korosten,Коростень
+Korosten,Коростені
+Kramatorsk,Краматорськ
+Kramatorsk,Краматорську
+Lubny,Лубни
+Lubny,Лубнах
+Myrhorod,Миргород
+Myrhorod,Миргороді
+Nova Kakhovka,Нова Каховка
+Nova Kakhovka,Новій Каховці
+Novograd-Volynskyi,Новоград-Волинський
+Novograd-Volynskyi,Новограді-Волинському
+Obukhiv,Обухів
+Obukhiv,Обухові
+Pereiaslav,Переяслав
+Pereiaslav,Переяславі
+Pryluky,Прилуки
+Pryluky,Прилуках
+Romny,Ромни
+Romny,Ромнах
+Tokmak,Токмак
+Tokmak,Токмаку
+Chornomorsk,Чорноморськ
+Chornomorsk,Чорноморську
+Shepetivka,Шепетівка
+Shepetivka,Шепетівці
+Yuzhne,Южне
+Yuzhne,Южному
+Yalta,Ялта
+Yalta,Ялті
+Chernivtsi,Чернівці
+Chernivtsi,Чернівцях
+Boyarka,Боярка
+Boyarka,Боярці
+Izmail,Ізмаїл
+Izmail,Ізмаїлі
+Starokostiantyniv,Старокостянтинів
+Starokostiantyniv,Старокостянтинові
+Vasylkiv,Васильків
+Vasylkiv,Василькові
+Slavuta,Славута
+Slavuta,Славуті
+Kakhovka,Каховка
+Kakhovka,Каховці
+Truskavets,Трускавець
+Truskavets,Трускавці
+Yahotyn,Яготин
+Yahotyn,Яготині
+Zolotonosha,Золотоноша
+Zolotonosha,Золотоноші
+Zolochiv,Золочів
+Zolochiv,Золочеві
+Pidhorodne,Підгородне
+Pidhorodne,Підгородному
+Sokal,Сокаль
+Sokal,Сокалі
+Sarny,Сарни
+Sarny,Сарнах
+Kitsman,Кіцмань
+Kitsman,Кіцмані
+Kobeliaky,Кобеляки
+Kobeliaky,Кобеляках
+Horodok,Городок
+Horodok,Городку
+Horodyshche,Городище
+Horodyshche,Городищі
+Hlukhiv,Глухів
+Hlukhiv,Глухові
+Kupiansk,Куп'янськ
+Kupiansk,Куп'янську
+Pidvolochysk,Підволочиськ
+Pidvolochysk,Підволочиську
+Afghanistan,Афганістан
+Afghanistan,Афганістані
+Aland Islands,Аландські
+Aland Islands,Аландських
+Albania,Албанія
+Albania,Албанії
+Algeria,Алжир
+Algeria,Алжирі
+American Samoa,Американське Самоа
+American Samoa,Американському Самоа
+Andorra,Андорра
+Andorra,Андоррі
+Angola,Ангола
+Angola,Анголі
+Anguilla,Ангілла
+Anguilla,Ангіллі
+Antarctica,Антарктида
+Antarctica,Антарктиді
+Barbuda,Барбуда
+Barbuda,Барбуді
+Argentina,Аргентина
+Argentina,Аргентині
+Armenia,Вірменія
+Armenia,Вірменії
+Aruba,Аруба
+Aruba,Арубі
+Australia,Австралія
+Australia,Австралії
+Austria,Австрія
+Austria,Австрії
+Azerbaijan,Азербайджан
+Azerbaijan,Азербайджані
+Bahrain,Бахрейн
+Bahrain,Бахрейні
+Bangladesh,Бангладеш
+Bangladesh,Бангладеші
+Barbados,Барбадос
+Barbados,Барбадосі
+Belarus,Білорусь
+Belarus,Білорусі
+Belgium,Бельгія
+Belgium,Бельгії
+Belize,Беліз
+Belize,Белізі
+Benin,Бенін
+Benin,Беніні
+Bermuda,Бермуди
+Bermuda,Бермудах
+Bhutan,Бутан
+Bhutan,Бутані
+Bolivia,Болівія
+Bolivia,Болівії
+Bonaire,Bонейр
+Bonaire,Бонейрі
+Bosnia and Herzegovina,Боснія і Герцеговина
+Bosnia and Herzegovina,Боснії і Герцеговині
+Botswana,Ботсвана
+Botswana,Ботсвані
+Bouvet Island,Буве
+Bouvet Island,Буве
+Brazil,Бразилія
+Brazil,Бразилії
+Brunei,Бруней
+Brunei,Брунеї
+Bulgaria,Болгарія
+Bulgaria,Болгарії
+Burkina Faso,Буркіна-Фасо
+Burkina Faso,Буркіна-Фасо
+Burundi,Бурунді
+Burundi,Бурунді
+Cambodia,Камбоджа
+Cambodia,Камбоджі
+Cameroon,Камерун
+Cameroon,Камеруні
+Canada,Канада
+Canada,Канаді
+Cape Verde,Кабо-Верде
+Cape Verde,Кабо-Верде
+Cayman Islands,Кайманові
+Cayman Islands,Кайманових
+Central African Republic,Центральноафриканська
+Central African Republic,Центральноафриканській
+Chad,Чад
+Chad,Чаді
+Chile,Чилі
+Chile,Чилі
+China,Китай
+China,Китаї
+Colombia,Колумбія
+Colombia,Колумбії
+Comoros,Коморські
+Comoros,Коморських
+Congo,Конго
+Congo,Конго
+Cook Islands,Кука
+Costa Rica,Коста Ріка
+Costa Rica,Коста Ріці
+Croatia,Хорватія
+Croatia,Хорватії
+Cuba,Куба
+Cuba,Кубі
+Curacao,Кюрасао
+Curacao,Кюрасао
+Cyprus,Кіпр
+Cyprus,Кіпрі
+Czech Republic,Чеська
+Czech Republic,Чеській
+Czechia,Чехія
+Czechia,Чехії
+Denmark,Данія
+Denmark,Данії
+Djibouti,Джибуті
+Djibouti,Джибуті
+Dominica,Домініка
+Dominica,Домініці
+Ecuador,Еквадор
+Ecuador,Еквадорі
+Egypt,Єгипет
+Egypt,Єгипті
+El Salvador,Сальвадор
+El Salvador,Сальвадорі
+Eritrea,Еритрея
+Eritrea,Еритреї
+Estonia,Естонія
+Estonia,Естонії
+Eswatini,Есватіні
+Eswatini,Есватіні
+Ethiopia,Ефіопія
+Ethiopia,Ефіопії
+Falkland Islands,Фолклендські
+Falkland Islands,Фолклендських
+Faroe Islands,Фарерські
+Faroe Islands,Фарерських
+Fiji,Фіджі
+Fiji,Фіджі
+Finland,Фінляндія
+Finland,Фінляндії
+France,Франція
+France,Франції
+Gabon,Габон
+Gabon,Габоні
+Georgia,Грузія
+Georgia,Грузії
+Germany,Німеччина
+Germany,Німеччині
+Ghana,Гана
+Ghana,Гані
+Gibraltar,Гібралтар
+Gibraltar,Гібралтарі
+Greece,Греція
+Greece,Греції
+Greenland,Гренландія
+Greenland,Гренландії
+Grenada,Гренада
+Grenada,Гренаді
+Guadeloupe,Гваделупа
+Guadeloupe,Гваделупі
+Guam,Гуам
+Guam,Гуамі
+Guatemala,Гватемала
+Guatemala,Гватемалі
+Guernsey,Гернсі
+Guernsey,Гернсі
+Guinea,Гвінея
+Guinea,Гвінеї
+Guinea-Bissau,Гвінея-Бісау
+Guinea-Bissau,Гвінеї-Бісау
+Guyana,Гайана
+Guyana,Гаяні
+Haiti,Гаїті
+Haiti,Гаїті
+Honduras,Гондурас
+Honduras,Гондурасі
+Hungary,Угорщина
+Hungary,Угорщині
+Iceland,Ісландія
+Iceland,Ісландії
+India,Індія
+India,Індії
+Indonesia,Індонезія
+Indonesia,Індонезії
+Iran,Іран
+Iran,Ірані
+Iraq,Ірак
+Iraq,Іраку
+Ireland,Ірландія
+Ireland,Ірландії
+Israel,Ізраїль
+Israel,Ізраїлі
+Italy,Італія
+Italy,Італії
+Ivory Coast,Кот-д'Івуар
+Ivory Coast,Кот-д'Івуарі
+Ivory Coast,Кот дівуар
+Ivory Coast,Кот дівуарі
+Jamaica,Ямайка
+Jamaica,Ямайці
+Japan,Японія
+Japan,Японії
+Jersey,Джерсі
+Jersey,Джерсі
+Jordan,Йорданія
+Jordan,Йорданії
+Kazakhstan,Казахстан
+Kazakhstan,Казахстані
+Kenya,Кенія
+Kenya,Кенії
+Kiribati,Кірібаті
+Kiribati,Кірібаті
+Kosovo,Косово
+Kosovo,Косово
+Kuwait,Кувейт
+Kuwait,Кувейті
+Kyrgyzstan,Киргизстан
+Kyrgyzstan,Киргизстані
+Laos,Лаос
+Laos,Лаосі
+Latvia,Латвія
+Latvia,Латвії
+Lebanon,Ліван
+Lebanon,Лівані
+Lesotho,Лесото
+Lesotho,Лесото
+Liberia,Ліберія
+Liberia,Ліберії
+Libya,Лівія
+Libya,Лівії
+Liechtenstein,Ліхтенштейн
+Liechtenstein,Ліхтенштейні
+Lithuania,Литва
+Lithuania,Литві
+Luxembourg,Люксембург
+Luxembourg,Люксембурзі
+Madagascar,Мадагаскар
+Madagascar,Мадагаскарі
+Malawi,Малаві
+Malawi,Малаві
+Malaysia,Малайзія
+Malaysia,Малайзії
+Maldives,Мальдіви
+Maldives,Мальдівах
+Mali,Малі
+Mali,Малі
+Malta,Мальта
+Malta,Мальті
+Isle of Man,Мен
+Marshall Islands,Маршаллові
+Marshall Islands,Маршаллових
+Martinique,Мартініка
+Martinique,Мартініці
+Mauritania,Мавританія
+Mauritania,Мавританії
+Mauritius,Маврикій
+Mauritius,Маврикії
+Mayotte,Майотта
+Mayotte,Майотті
+Mexico,Мексика
+Mexico,Мексиці
+Micronesia,Мікронезія
+Micronesia,Мікронезії
+Moldova,Молдова
+Moldova,Молдові
+Monaco,Монако
+Monaco,Монако
+Mongolia,Монголія
+Mongolia,Монголії
+Montenegro,Чорногорія
+Montenegro,Чорногорії
+Montserrat,Монтсеррат
+Montserrat,Монтсерраті
+Morocco,Марокко
+Morocco,Марокко
+Mozambique,Мозамбік
+Mozambique,Мозамбіку
+Myanmar,М'янма
+Myanmar,М'янмі
+Myanmar,Мянма
+Myanmar,Мянмі
+Namibia,Намібія
+Namibia,Намібії
+Nauru,Науру
+Nauru,Науру
+Nepal,Непал
+Nepal,Непалі
+Netherlands,Нідерланди
+Netherlands,Нідерландах
+New Caledonia,Каледонія
+New Caledonia,Каледонії
+New Zealand,Зеландія
+New Zealand,Зеландії
+Nicaragua,Нікарагуа
+Nicaragua,Нікарагуа
+Niger,Нігер
+Niger,Нігері
+Nigeria,Нігерія
+Nigeria,Нігерії
+Niue,Ніуе
+Niue,Ніуе
+Norfolk Island,Норфолк
+Norfolk Island,Норфолку
+North Korea,Північна Корея
+North Korea,Північній Кореї
+Norway,Норвегія
+Norway,Норвегії
+Oman,Оман
+Oman,Омані
+Pakistan,Пакистан
+Pakistan,Пакистані
+Palau,Палау
+Palau,Палау
+Panama,Панама
+Panama,Панамі
+Papua New Guinea,Папуа-Нова Гвінея
+Papua New Guinea,Папуа-Новій Гвінеї
+Paraguay,Парагвай
+Paraguay,Парагваї
+Peru,Перу
+Peru,Перу
+Philippines,Філіппіни
+Philippines,Філіппінах
+Pitcairn Islands,Піткерн
+Pitcairn Islands,Піткерні
+Poland,Польща
+Poland,Польщі
+Portugal,Португалія
+Portugal,Португалії
+Puerto Rico,Пуерто-Рико
+Puerto Rico,Пуерто-Рико
+Qatar,Катар
+Qatar,Катарі
+Reunion,Реюньйон
+Reunion,Реюньйоні
+Romania,Румунія
+Romania,Румунії
+Rwanda,Руанда
+Rwanda,Руанді
+Saudi Arabia,Саудівська Аравія
+Saudi Arabia,Саудівській Аравії
+Senegal,Сенегал
+Senegal,Сенегалі
+Serbia,Сербія
+Serbia,Сербії
+Seychelles,Сейшельські
+Seychelles,Сейшельських
+Sierra Leone,Сьєрра-Леоне
+Sierra Leone,Сьєрра-Леоне
+Singapore,Сінгапур
+Singapore,Сінгапурі
+Slovakia,Словаччина
+Slovakia,Словаччині
+Slovenia,Словенія
+Slovenia,Словенії
+Solomon Islands,Соломонові
+Solomon Islands,Соломонових
+Somalia,Сомалі
+Somalia,Сомалі
+Spain,Іспанія
+Spain,Іспанії
+Sri Lanka,Шрі-Ланка
+Sri Lanka,Шрі-Ланці
+Sri Lanka,Шрі Ланка
+Sri Lanka,Шрі Ланці
+Sudan,Судан
+Sudan,Судані
+Suriname,Суринам
+Suriname,Суринамі
+Sweden,Швеція
+Sweden,Швеції
+Switzerland,Швейцарія
+Switzerland,Швейцарії
+Syria,Сирія
+Syria,Сирії
+Taiwan,Тайвань
+Taiwan,Тайвані
+Tajikistan,Таджикистан
+Tajikistan,Таджикистані
+Tanzania,Танзанія
+Tanzania,Танзанії
+Thailand,Таїланд
+Thailand,Таїланді
+Bahamas,Багамські
+Bahamas,Багамських
+Gambia,Гамбія
+Gambia,Гамбії
+East Timor,Східний Тимор
+East Timor,Східному Тиморі
+Togo,Того
+Togo,Того
+Tokelau,Токелау
+Tokelau,Токелау
+Tonga,Тонга
+Tonga,Тонзі
+Tunisia,Туніс
+Tunisia,Тунісі
+Turkey,Туреччина
+Turkey,Туреччині
+Turkmenistan,Туркменістан
+Turkmenistan,Туркменістані
+Tuvalu,Тувалу
+Tuvalu,Тувалу
+Uganda,Уганда
+Uganda,Уганді
+Ukraine,Україна
+Ukraine,Україні
+United Arab Emirates,Об'єднані Арабські Емірати
+United Arab Emirates,Об'єднаних Арабських Еміратах
+United Kingdom,Велика Британія
+United Kingdom,Великій Британії
+United States,Сполучені Штати Америки
+United States,Сполучених Штатах Америки
+Uruguay,Уругвай
+Uruguay,Уругваї
+Uzbekistan,Узбекистан
+Uzbekistan,Узбекистані
+Vanuatu,Вануату
+Vanuatu,Вануату
+Vatican City,Ватикан
+Vatican City,Ватикані
+Venezuela,Венесуела
+Venezuela,Венесуелі
+Vietnam,В'єтнам
+Vietnam,В'єтнамі
+Yemen,Ємен
+Yemen,Ємені
+Zambia,Замбія
+Zambia,Замбії
+Zimbabwe,Зімбабве
+Zimbabwe,Зімбабве
