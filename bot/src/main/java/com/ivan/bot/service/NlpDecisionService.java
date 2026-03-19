@@ -1,19 +1,28 @@
 package com.ivan.bot.service;
 
-import com.ivan.bot.handler.CommandHandler;
+import com.ivan.bot.client.currency.CurrencyClient;
+import com.ivan.bot.client.weather.WeatherClient;
+import com.ivan.bot.dto.request.BotRequest;
+import com.ivan.bot.dto.request.CurrencyBotRequest;
+import com.ivan.bot.dto.request.WeatherBotRequest;
+import com.ivan.bot.dto.response.BotResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.Update;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 public class NlpDecisionService {
-    private final Map<String, CommandHandler> handlers;
+    private final CurrencyClient currencyClient;
+    private final WeatherClient weatherClient;
 
-    public SendMessage decideResponse(Update update, String command) {
-        CommandHandler handler = handlers.get(command);
-        return handler.handle(update);
+
+    public BotResponse decideResponse(BotRequest botRequest) {
+        return switch (botRequest) {
+            case WeatherBotRequest weatherRequest ->
+                weatherClient.getWeather(weatherRequest);
+            case CurrencyBotRequest currencyRequest ->
+                currencyClient.getCurrencyRates(currencyRequest);
+            default -> throw new IllegalStateException("Unexpected value: " + botRequest);
+        };
     }
 }

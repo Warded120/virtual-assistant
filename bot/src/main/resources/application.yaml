@@ -11,10 +11,8 @@ telegram:
     token: ${TELEGRAM_BOT_TOKEN}
 
 api:
-  base-url: http://localhost:8080
-  news:
-    endpoint: /api/v1/news
   weather:
-    endpoint: /api/v1/weather
+    base-url: https://api.openweathermap.org
+    key: ${OPENWEATHER_API_KEY}
   currency:
-    endpoint: /api/v1/currency
+    base-url: https://api.exchangerate-api.com
