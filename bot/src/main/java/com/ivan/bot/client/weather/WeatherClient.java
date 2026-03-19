@@ -1,5 +1,6 @@
 package com.ivan.bot.client.weather;
 
+import com.ivan.bot.cache.GenericCache;
 import com.ivan.bot.dto.request.WeatherBotRequest;
 import com.ivan.bot.dto.response.BotResponse;
 import com.ivan.bot.dto.response.WeatherResponse;
@@ -15,15 +16,20 @@ import java.util.Optional;
 @Component("weatherApiClient")
 public class WeatherClient {
     public static final String UNITS = "metric";
+
     private final WeatherApiClient nonCacheableWeatherApiClient;
+    private final GenericCache<String, Optional<WeatherResponse.ExternalWeatherResponse>> cache;
 
     @Value("${api.weather.key}")
     private String weatherApiKey;
 
     public BotResponse getWeather(WeatherBotRequest weatherRequest) {
         var externalResponse =
-                nonCacheableWeatherApiClient
-                        .getWeather(weatherRequest.city(), weatherApiKey, UNITS)
+                cache.of(city ->
+                                nonCacheableWeatherApiClient
+                                        .getWeather(weatherRequest.city(), weatherApiKey, UNITS)
+                        )
+                        .apply(weatherRequest.city())
                         .orElseThrow(() -> new RuntimeException("Something went wrong during weather API request"));
 
         return WeatherResponse.builder()

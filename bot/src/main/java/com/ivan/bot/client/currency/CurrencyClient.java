@@ -1,5 +1,6 @@
 package com.ivan.bot.client.currency;
 
+import com.ivan.bot.cache.GenericCache;
 import com.ivan.bot.dto.request.CurrencyBotRequest;
 import com.ivan.bot.dto.response.CurrencyResponse;
 import com.ivan.bot.dto.response.BotResponse;
@@ -14,16 +15,19 @@ import java.util.Optional;
 @Component("currencyApiClient")
 public class CurrencyClient {
     private final CurrencyClient.CurrencyApiClient nonCacheableWeatherApiClient;
+    private final GenericCache<String, Optional<CurrencyResponse.ExternalCurrencyResponse>> cache;
+
 
     public BotResponse getCurrencyRates(CurrencyBotRequest currencyRequest) {
-        var externalResponse = nonCacheableWeatherApiClient
-                .getCurrencyRates(currencyRequest.base())
-                .orElseThrow(() -> new RuntimeException("Something went wrong during weather API request"));
+        var externalResponse =
+                cache.of(nonCacheableWeatherApiClient::getCurrencyRates)
+                        .apply(currencyRequest.base())
+                        .orElseThrow(() -> new RuntimeException("Something went wrong during weather API request"));
 
         return CurrencyResponse.builder()
                 .base(externalResponse.getBase())
-                .target(currencyRequest.target()) //TODO: add target
-                .rate(externalResponse.getRates().get(currencyRequest.target())) //TODO: retrieve rate
+                .target(currencyRequest.target())
+                .rate(externalResponse.getRates().get(currencyRequest.target()))
                 .build();
     }
 
@@ -36,6 +40,6 @@ public class CurrencyClient {
     )
     private interface CurrencyApiClient {
         @GetMapping("/v4/latest/{base}")
-        Optional<com.ivan.bot.dto.response.CurrencyResponse.ExternalCurrencyResponse> getCurrencyRates(@PathVariable String base);
+        Optional<CurrencyResponse.ExternalCurrencyResponse> getCurrencyRates(@PathVariable String base);
     }
 }
