@@ -12,15 +12,10 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CommandHandlerManager {
 
-    private final Map<String, CommandHandler> handlers;
     private final NlpHandler nlpHandler;
 
     public SendMessage handle(Update update) {
-        return Optional.of(update)
-                .map(CommandHandlerManager::getCommand)
-                .map(handlers::get)
-                .map(handler -> handler.handle(update))
-                .orElseGet(() -> nlpHandler.handle(update));
+        return nlpHandler.handle(update);
     }
 
     private static String getCommand(Update update) {

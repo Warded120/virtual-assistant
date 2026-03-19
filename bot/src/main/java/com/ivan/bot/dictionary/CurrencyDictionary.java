@@ -1,58 +1,63 @@
 package com.ivan.bot.dictionary;
 
+import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Component;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
 @Component
 public class CurrencyDictionary {
+    private final Map<String, String> currenciesEn = new HashMap<>();
+    private final Map<String, String> currenciesUk = new HashMap<>();
 
-    private static final Map<String, String> CURRENCIES = Map.ofEntries(
-        Map.entry("usd", "USD"),
-        Map.entry("eur", "EUR"),
-        Map.entry("uah", "UAH"),
-        Map.entry("gbp", "GBP"),
-        Map.entry("pln", "PLN"),
-        Map.entry("chf", "CHF"),
-        Map.entry("jpy", "JPY"),
-        Map.entry("cny", "CNY"),
-        Map.entry("czk", "CZK"),
-        Map.entry("cad", "CAD"),
-        Map.entry("aud", "AUD"),
+    @PostConstruct
+    private void loadCurrencies() {
+        loadCsv("dictionaries/currencies_en.csv", currenciesEn);
+        loadCsv("dictionaries/currencies_uk.csv", currenciesUk);
+    }
 
-        Map.entry("dollar",   "USD"),
-        Map.entry("dollars",  "USD"),
-        Map.entry("euro",     "EUR"),
-        Map.entry("euros",    "EUR"),
-        Map.entry("hryvnia",  "UAH"),
-        Map.entry("hryvnias", "UAH"),
-        Map.entry("pound",    "GBP"),
-        Map.entry("pounds",   "GBP"),
-        Map.entry("zloty",    "PLN"),
-        Map.entry("franc",    "CHF"),
-        Map.entry("yen",      "JPY"),
-        Map.entry("yuan",     "CNY"),
-
-        Map.entry("долар",    "USD"),
-        Map.entry("долари",   "USD"),
-        Map.entry("доларів",  "USD"),
-        Map.entry("дол",      "USD"),
-        Map.entry("євро",     "EUR"),
-        Map.entry("гривня",   "UAH"),
-        Map.entry("гривні",   "UAH"),
-        Map.entry("гривень",  "UAH"),
-        Map.entry("грн",      "UAH"),
-        Map.entry("фунт",     "GBP"),
-        Map.entry("фунтів",   "GBP"),
-        Map.entry("злотий",   "PLN"),
-        Map.entry("злотих",   "PLN"),
-        Map.entry("франк",    "CHF"),
-        Map.entry("єна",      "JPY"),
-        Map.entry("юань",     "CNY")
-    );
+    //TODO: add different key variations for en csv file (e.g. "dollar", "dollars", "usd", "us dollar" etc.)
+    //TODO: add different key variations for uk csv file (e.g. "долар", "долари", "доларів", "долар США" etc.)
+    private void loadCsv(String resourcePath, Map<String, String> map) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(
+                getClass().getClassLoader().getResourceAsStream(resourcePath), StandardCharsets.UTF_8))) {
+            String line;
+            boolean first = true;
+            while ((line = reader.readLine()) != null) {
+                if (first) { first = false; continue; }
+                String[] parts = line.split(",", 2);
+                if (parts.length == 2) {
+                    String currency = parts[0].trim();
+                    String text = parts[1].trim();
+                    if (!text.isEmpty()) {
+                        map.put(text.toLowerCase(), currency);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to load currency dictionary: " + resourcePath, e);
+        }
+    }
 
     public Optional<String> resolve(String token) {
-        return Optional.ofNullable(CURRENCIES.get(token.toLowerCase()));
+        String lowerToken = token.toLowerCase();
+        // Search English map
+        for (Map.Entry<String, String> entry : currenciesEn.entrySet()) {
+            if (entry.getKey().contains(lowerToken)) {
+                return Optional.of(entry.getValue());
+            }
+        }
+        // Search Ukrainian map
+        for (Map.Entry<String, String> entry : currenciesUk.entrySet()) {
+            if (entry.getKey().contains(lowerToken)) {
+                return Optional.of(entry.getValue());
+            }
+        }
+        return Optional.empty();
     }
 }

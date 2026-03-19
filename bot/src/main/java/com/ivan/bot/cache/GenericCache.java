@@ -36,6 +36,6 @@ public class GenericCache<K, V> {
                                     return applied;
                                 })
                 )
-                .orElseThrow(() -> new IllegalArgumentException("key is null"));//TODO: create custom exception
+                .orElseThrow(() -> new IllegalArgumentException("key is null"));
     }
 }

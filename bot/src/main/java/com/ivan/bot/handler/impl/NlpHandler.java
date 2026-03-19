@@ -1,6 +1,7 @@
 package com.ivan.bot.handler.impl;
 
 import com.ivan.bot.dto.request.BotRequest;
+import com.ivan.bot.handler.CommandHandler;
 import com.ivan.bot.service.NlpDecisionService;
 import com.ivan.bot.service.NlpPipeline;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +13,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class NlpHandler {
+public class NlpHandler implements CommandHandler {
 
     private final NlpDecisionService decisionService;
     private final NlpPipeline nlpPipeline;
