@@ -3,7 +3,7 @@ package com.ivan.bot.handler.impl;
 import com.ivan.bot.dto.request.BotRequest;
 import com.ivan.bot.handler.CommandHandler;
 import com.ivan.bot.service.NlpDecisionService;
-import com.ivan.bot.service.NlpPipeline;
+import com.ivan.bot.service.NlpPipelineService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -16,7 +16,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 public class NlpHandler implements CommandHandler {
 
     private final NlpDecisionService decisionService;
-    private final NlpPipeline nlpPipeline;
+    private final NlpPipelineService nlpPipelineService;
 
     public SendMessage handle(Update update) {
         String text = update.getMessage().getText();
@@ -26,7 +26,7 @@ public class NlpHandler implements CommandHandler {
 
         log.info("Processing free text: {}", text);
 
-        BotRequest request = nlpPipeline.parse(text, chatIdLong, telegramUsername);
+        BotRequest request = nlpPipelineService.parse(text, chatIdLong, telegramUsername);
 
         var response = decisionService.decideResponse(request);
 

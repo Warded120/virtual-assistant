@@ -1,8 +1,10 @@
 package com.ivan.bot.handler;
 
-import com.ivan.bot.enumeration.UserState;
 import com.ivan.bot.fsm.UserStateManager;
-import com.ivan.bot.handler.impl.*;
+import com.ivan.bot.handler.impl.CreateProfileHandler;
+import com.ivan.bot.handler.impl.NlpHandler;
+import com.ivan.bot.handler.impl.ProfileHandler;
+import com.ivan.bot.handler.impl.UpdateProfileHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -22,12 +24,10 @@ public class CommandHandlerManager {
         Long chatId = update.getMessage().getChatId();
         String text = update.getMessage().getText().trim();
 
-        // Handle commands first
         if (text.startsWith("/")) {
             return handleCommand(text.toLowerCase(), update, chatId);
         }
 
-        // Handle FSM states for ongoing flows
         if (stateManager.isInCreateProfileFlow(chatId)) {
             return createProfileHandler.handle(update);
         }
@@ -36,7 +36,6 @@ public class CommandHandlerManager {
             return updateProfileHandler.handle(update);
         }
 
-        // Default to NLP handler for natural language processing
         return nlpHandler.handle(update);
     }
 

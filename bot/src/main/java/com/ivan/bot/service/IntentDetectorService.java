@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import java.util.Set;
 
 @Component
-public class IntentDetector {
+public class IntentDetectorService {
 
     private static final Set<String> WEATHER_KW = Set.of(
             "weather", "forecast", "temperature", "rain", "snow",
@@ -93,9 +93,6 @@ public class IntentDetector {
         return UpdateIntent.UNKNOWN;
     }
 
-    /**
-     * Detect language from tokens based on presence of Cyrillic characters
-     */
     public Language detectLanguage(String[] tokens) {
         for (String token : tokens) {
             for (char c : token.toCharArray()) {

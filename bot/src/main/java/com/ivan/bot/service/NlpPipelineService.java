@@ -13,10 +13,10 @@ import java.util.Arrays;
 
 @Component
 @RequiredArgsConstructor
-public class NlpPipeline {
+public class NlpPipelineService {
 
     private final TokenizerME tokenizer;
-    private final IntentDetector intentDetector;
+    private final IntentDetectorService intentDetectorService;
     private final RequestBuilder weatherRequestBuilder;
     private final RequestBuilder currencyRequestBuilder;
 
@@ -30,8 +30,8 @@ public class NlpPipeline {
                                      .map(String::toLowerCase)
                                      .toArray(String[]::new);
 
-        UpdateIntent intent = intentDetector.detect(tokensLower);
-        Language detectedLanguage = intentDetector.detectLanguage(tokens);
+        UpdateIntent intent = intentDetectorService.detect(tokensLower);
+        Language detectedLanguage = intentDetectorService.detectLanguage(tokens);
 
         return switch (intent) {
             case WEATHER -> weatherRequestBuilder.buildRequest(tokensLower, chatId);
