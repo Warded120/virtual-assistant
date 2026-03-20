@@ -16,7 +16,6 @@
     <description>virtual-assistant</description>
 
     <modules>
-        <module>api</module>
         <module>bot</module>
     </modules>
     <packaging>pom</packaging>
