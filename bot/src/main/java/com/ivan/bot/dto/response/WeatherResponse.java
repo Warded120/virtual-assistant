@@ -1,6 +1,7 @@
 package com.ivan.bot.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.ivan.bot.enumeration.Language;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,18 +21,34 @@ public class WeatherResponse implements BotResponse {
     private String description;
     private Double windSpeed;
     private Long timestamp;
+    private Language language;
 
     @Override
     public String getMessage() {
+        return getMessage(language != null ? language : Language.ENGLISH);
+    }
+
+    @Override
+    public String getMessage(Language lang) {
+        if (lang == Language.UKRAINIAN) {
+            return String.format(
+                    "🌤 Погода в %s, %s: %s.\n" +
+                    "🌡 Температура: %.1f°C, відчувається як %.1f°C.\n" +
+                    "💧 Вологість: %d%%.\n" +
+                    "💨 Швидкість вітру: %.1f м/с.",
+                    city, country, description,
+                    temperature, feelsLike,
+                    humidity, windSpeed
+            );
+        }
         return String.format(
-                "Weather in %s, %s: %s. Temperature: %.1f°C, feels like %.1f°C. Humidity: %d%%. Wind speed: %.1f m/s.",
-                city,
-                country,
-                description,
-                temperature,
-                feelsLike,
-                humidity,
-                windSpeed
+                "🌤 Weather in %s, %s: %s.\n" +
+                "🌡 Temperature: %.1f°C, feels like %.1f°C.\n" +
+                "💧 Humidity: %d%%.\n" +
+                "💨 Wind speed: %.1f m/s.",
+                city, country, description,
+                temperature, feelsLike,
+                humidity, windSpeed
         );
     }
 

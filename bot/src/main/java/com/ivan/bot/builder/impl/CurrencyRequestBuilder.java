@@ -3,22 +3,25 @@ package com.ivan.bot.builder.impl;
 import com.ivan.bot.builder.RequestBuilder;
 import com.ivan.bot.dictionary.CurrencyDictionary;
 import com.ivan.bot.dto.request.CurrencyBotRequest;
+import com.ivan.bot.service.UserProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.ivan.bot.constant.Constants.DEFAULT_CURRENCY;
-import static com.ivan.bot.constant.Constants.DEFAULT_CURRENCY_TO;
 
 @RequiredArgsConstructor
 @Component("currencyRequestBuilder")
 public class CurrencyRequestBuilder implements RequestBuilder {
 
     private final CurrencyDictionary currencyDictionary;
+    private final UserProfileService userProfileService;
 
     @Override
-    public CurrencyBotRequest buildRequest(String[] tokensLower) {
+    public CurrencyBotRequest buildRequest(String[] tokensLower, Long chatId) {
+        // Get user's preferred currencies as defaults
+        String defaultBase = userProfileService.getBaseCurrency(chatId);
+        String defaultTarget = userProfileService.getTargetCurrency(chatId);
+
         List<String> found = new ArrayList<>();
 
         for (String token : tokensLower) {
@@ -30,9 +33,9 @@ public class CurrencyRequestBuilder implements RequestBuilder {
         }
 
         return switch (found.size()) {
-            case 2  -> new CurrencyBotRequest(found.get(0), found.get(1));
-            case 1  -> new CurrencyBotRequest(found.get(0), DEFAULT_CURRENCY_TO);
-            default -> new CurrencyBotRequest(DEFAULT_CURRENCY, DEFAULT_CURRENCY_TO);
+            case 2  -> new CurrencyBotRequest(found.get(0), found.get(1), chatId);
+            case 1  -> new CurrencyBotRequest(found.get(0), defaultTarget, chatId);
+            default -> new CurrencyBotRequest(defaultBase, defaultTarget, chatId);
         };
     }
 }

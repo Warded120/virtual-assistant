@@ -1,5 +1,6 @@
 package com.ivan.bot.service;
 
+import com.ivan.bot.enumeration.Language;
 import com.ivan.bot.enumeration.UpdateIntent;
 import org.springframework.stereotype.Component;
 import java.util.Set;
@@ -8,35 +9,101 @@ import java.util.Set;
 public class IntentDetector {
 
     private static final Set<String> WEATHER_KW = Set.of(
-        "weather", "forecast", "temperature", "rain", "snow",
-        "sunny", "cloudy", "wind", "humid", "storm", "climate",
+            "weather", "forecast", "temperature", "rain", "snow",
+            "sunny", "cloudy", "wind", "humid", "storm", "climate",
 
-        "погода", "погоду", "погоди", "прогноз", "температура",
-        "температуру", "дощ", "сніг", "вітер", "хмарно", "сонячно",
-        "мороз", "гроза", "туман", "опади", "холодно", "тепло", "тепла", "жарко", "прохолодно"
+            "погода", "погоду", "погоди", "прогноз", "температура",
+            "температуру", "дощ", "сніг", "вітер", "хмарно", "сонячно",
+            "мороз", "гроза", "туман", "опади", "холодно", "тепло", "тепла", "жарко", "прохолодно"
     );
 
     private static final Set<String> CURRENCY_KW = Set.of(
-        "currency", "exchange", "rate", "convert", "conversion",
-        "forex", "price", "cost", "worth",
+            "currency", "exchange", "rate", "convert", "conversion",
+            "forex", "price", "cost", "worth",
 
-        "курс", "валюта", "валют", "гроші", "валюти", "обмін", "конвертація",
-        "конвертувати", "ціна", "вартість"
+            "курс", "валюта", "валют", "гроші", "валюти", "обмін", "конвертація",
+            "конвертувати", "ціна", "вартість"
+    );
+
+    private static final Set<String> CREATE_PROFILE_KW = Set.of(
+            "create", "new", "register", "signup", "make",
+            "створи", "створити", "новий", "реєстрація", "зареєструватися", "зареєструй"
+    );
+
+    private static final Set<String> UPDATE_PROFILE_KW = Set.of(
+            "update", "change", "edit", "modify", "settings",
+            "онови", "оновити", "зміни", "змінити", "редагувати", "налаштування", "редагуй"
+    );
+
+    private static final Set<String> VIEW_PROFILE_KW = Set.of(
+            "view", "show", "display", "get", "see",
+            "переглянути", "покажи", "показати", "подивитися", "глянь", "перегляд"
+    );
+
+    private static final Set<String> PROFILE_KW = Set.of(
+            "profile", "account", "me", "my",
+            "профіль", "акаунт", "мене", "мій", "мої", "мною"
     );
 
     public UpdateIntent detect(String[] tokens) {
-        int weatherScore  = 0;
+        int weatherScore = 0;
         int currencyScore = 0;
+        int createScore = 0;
+        int updateScore = 0;
+        int viewScore = 0;
+        int profileScore = 0;
 
         for (String token : tokens) {
-            if (WEATHER_KW.contains(token))  weatherScore++;
-            if (CURRENCY_KW.contains(token)) currencyScore++;
+            if (token.length() > 3) {
+                if (WEATHER_KW.contains(token) || WEATHER_KW.stream().anyMatch(token::contains))
+                    weatherScore++;
+                if (CURRENCY_KW.contains(token) || CURRENCY_KW.stream().anyMatch(token::contains))
+                    currencyScore++;
+                if (CREATE_PROFILE_KW.contains(token) || CREATE_PROFILE_KW.stream().anyMatch(token::contains))
+                    createScore++;
+                if (UPDATE_PROFILE_KW.contains(token) || UPDATE_PROFILE_KW.stream().anyMatch(token::contains))
+                    updateScore++;
+                if (VIEW_PROFILE_KW.contains(token) || VIEW_PROFILE_KW.stream().anyMatch(token::contains))
+                    viewScore++;
+                if (PROFILE_KW.contains(token) || PROFILE_KW.stream().anyMatch(token::contains))
+                    profileScore++;
+            }
         }
 
+        // Profile intents - need profile keyword + action keyword
+        boolean hasProfileContext = profileScore > 0;
+
+        if (hasProfileContext) {
+            if (createScore > 0) return UpdateIntent.CREATE_PROFILE;
+            if (updateScore > 0) return UpdateIntent.UPDATE_PROFILE;
+            if (viewScore > 0) return UpdateIntent.VIEW_PROFILE;
+        }
+
+        // Also detect by action keyword alone with high confidence patterns
+        // e.g., "створи мені профіль" - has both create and profile keywords
+        if (createScore > 0 && profileScore > 0) return UpdateIntent.CREATE_PROFILE;
+        if (updateScore > 0 && profileScore > 0) return UpdateIntent.UPDATE_PROFILE;
+        if (viewScore > 0 && profileScore > 0) return UpdateIntent.VIEW_PROFILE;
+
+        // Weather and currency detection
         if (weatherScore == 0 && currencyScore == 0) return UpdateIntent.UNKNOWN;
-        if (weatherScore > currencyScore)             return UpdateIntent.WEATHER;
-        if (currencyScore > weatherScore)             return UpdateIntent.CURRENCY;
+        if (weatherScore > currencyScore) return UpdateIntent.WEATHER;
+        if (currencyScore > weatherScore) return UpdateIntent.CURRENCY;
 
         return UpdateIntent.UNKNOWN;
+    }
+
+    /**
+     * Detect language from tokens based on presence of Cyrillic characters
+     */
+    public Language detectLanguage(String[] tokens) {
+        for (String token : tokens) {
+            for (char c : token.toCharArray()) {
+                if (Character.UnicodeBlock.of(c) == Character.UnicodeBlock.CYRILLIC) {
+                    return Language.UKRAINIAN;
+                }
+            }
+        }
+        return Language.ENGLISH;
     }
 }

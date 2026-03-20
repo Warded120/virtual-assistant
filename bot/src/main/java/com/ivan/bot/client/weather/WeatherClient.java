@@ -2,7 +2,6 @@ package com.ivan.bot.client.weather;
 
 import com.ivan.bot.cache.GenericCache;
 import com.ivan.bot.dto.request.WeatherBotRequest;
-import com.ivan.bot.dto.response.BotResponse;
 import com.ivan.bot.dto.response.WeatherResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,7 +22,7 @@ public class WeatherClient {
     @Value("${api.weather.key}")
     private String weatherApiKey;
 
-    public BotResponse getWeather(WeatherBotRequest weatherRequest) {
+    public WeatherResponse getWeather(WeatherBotRequest weatherRequest) {
         var externalResponse =
                 cache.of(city ->
                                 nonCacheableWeatherApiClient

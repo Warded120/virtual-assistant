@@ -3,7 +3,6 @@ package com.ivan.bot.client.currency;
 import com.ivan.bot.cache.GenericCache;
 import com.ivan.bot.dto.request.CurrencyBotRequest;
 import com.ivan.bot.dto.response.CurrencyResponse;
-import com.ivan.bot.dto.response.BotResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
@@ -18,7 +17,7 @@ public class CurrencyClient {
     private final GenericCache<String, Optional<CurrencyResponse.ExternalCurrencyResponse>> cache;
 
 
-    public BotResponse getCurrencyRates(CurrencyBotRequest currencyRequest) {
+    public CurrencyResponse getCurrencyRates(CurrencyBotRequest currencyRequest) {
         var externalResponse =
                 cache.of(nonCacheableWeatherApiClient::getCurrencyRates)
                         .apply(currencyRequest.base())

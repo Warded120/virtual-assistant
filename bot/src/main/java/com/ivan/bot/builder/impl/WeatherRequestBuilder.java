@@ -3,6 +3,7 @@ package com.ivan.bot.builder.impl;
 import com.ivan.bot.builder.RequestBuilder;
 import com.ivan.bot.dictionary.CityDictionary;
 import com.ivan.bot.dto.request.WeatherBotRequest;
+import com.ivan.bot.service.UserProfileService;
 import lombok.RequiredArgsConstructor;
 import opennlp.tools.namefind.NameFinderME;
 import opennlp.tools.util.Span;
@@ -11,23 +12,23 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import static com.ivan.bot.constant.Constants.DEFAULT_CITY;
-
 @RequiredArgsConstructor
 @Component("weatherRequestBuilder")
 public class WeatherRequestBuilder implements RequestBuilder {
     private final NameFinderME locationFinder;
     private final CityDictionary cityDictionary;
+    private final UserProfileService userProfileService;
 
     @Override
-    public WeatherBotRequest buildRequest(String[] tokens) {
-        String city = extractCity(tokens);
-
-        return new WeatherBotRequest(city);
+    public WeatherBotRequest buildRequest(String[] tokens, Long chatId) {
+        String city = extractCity(tokens, chatId);
+        return new WeatherBotRequest(city, chatId);
     }
 
+    private String extractCity(String[] tokens, Long chatId) {
+        // Get user's favourite city as default
+        String defaultCity = userProfileService.getFavouriteCity(chatId);
 
-    private String extractCity(String[] tokens) {
         try {
             var city = Optional.of(tokens)
                     .map(locationFinder::find)
@@ -38,13 +39,13 @@ public class WeatherRequestBuilder implements RequestBuilder {
                                     .map(cityDictionary::resolve)
                                     .filter(Objects::nonNull)
                                     .findFirst()
-                                    .orElse(DEFAULT_CITY)
+                                    .orElse(defaultCity)
                     );
             locationFinder.clearAdaptiveData();
             return city;
         } catch (Exception e) {
             locationFinder.clearAdaptiveData();
-            return null;
+            return defaultCity;
         }
     }
 }

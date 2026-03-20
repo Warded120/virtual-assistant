@@ -67,6 +67,9 @@ public class CurrencyDictionary {
     }
 
     private String matchEn(String token) {
+        if(token == null || token.length() <= 3) {
+            return null;
+        }
         for (Map.Entry<String, String> entry : currenciesEn.entrySet()) {
             if (entry.getKey().contains(token)) {
                 return entry.getValue();
@@ -82,6 +85,9 @@ public class CurrencyDictionary {
     }
 
     private String matchUk(String token) {
+        if(token == null || token.length() <= 3) {
+            return null;
+        }
         for (Map.Entry<String, String> entry : currenciesUk.entrySet()) {
             if (entry.getKey().contains(token)) {
                 return entry.getValue();

@@ -21,10 +21,12 @@ public class NlpHandler implements CommandHandler {
     public SendMessage handle(Update update) {
         String text = update.getMessage().getText();
         String chatId = update.getMessage().getChatId().toString();
+        Long chatIdLong = update.getMessage().getChatId();
+        String telegramUsername = update.getMessage().getFrom().getUserName();
 
         log.info("Processing free text: {}", text);
 
-        BotRequest request = nlpPipeline.parse(text);
+        BotRequest request = nlpPipeline.parse(text, chatIdLong, telegramUsername);
 
         var response = decisionService.decideResponse(request);
 
@@ -34,4 +36,3 @@ public class NlpHandler implements CommandHandler {
                 .build();
     }
 }
-
