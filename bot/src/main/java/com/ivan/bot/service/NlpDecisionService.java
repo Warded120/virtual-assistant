@@ -26,28 +26,29 @@ public class NlpDecisionService {
 
     public BotResponse decideResponse(BotRequest botRequest) {
         return switch (botRequest) {
-            case WeatherBotRequest weatherRequest -> {
-                var response = weatherClient.getWeather(weatherRequest);
-                // Set language based on user profile
-                if (weatherRequest.chatId() != null) {
-                    response.setLanguage(userProfileService.getLanguage(weatherRequest.chatId()));
-                }
-                yield response;
-            }
-            case CurrencyBotRequest currencyRequest -> {
-                var response = currencyClient.getCurrencyRates(currencyRequest);
-                // Set language based on user profile
-                if (currencyRequest.chatId() != null) {
-                    response.setLanguage(userProfileService.getLanguage(currencyRequest.chatId()));
-                }
-                yield response;
-            }
+            case WeatherBotRequest weatherRequest -> handleWeatherRequest(weatherRequest);
+            case CurrencyBotRequest currencyRequest -> handleCurrencyRequest(currencyRequest);
             case ProfileActionRequest profileRequest -> handleProfileAction(profileRequest);
-            case UnknownRequest unknownRequest -> UnknownResponse.builder()
-                    .language(resolveLanguage(unknownRequest.getChatId(), unknownRequest.getDetectedLanguage()))
-                    .build();
-            default -> new UnknownResponse();
+            default -> handleUnknownRequest((UnknownRequest) botRequest);
         };
+    }
+
+    private BotResponse handleWeatherRequest(WeatherBotRequest weatherRequest) {
+        var response = weatherClient.getWeather(weatherRequest);
+        response.setLanguage(userProfileService.getLanguage(weatherRequest.chatId()));
+        return response;
+    }
+
+    private BotResponse handleCurrencyRequest(CurrencyBotRequest currencyRequest) {
+        var response = currencyClient.getCurrencyRates(currencyRequest);
+        response.setLanguage(userProfileService.getLanguage(currencyRequest.chatId()));
+        return response;
+    }
+
+    private UnknownResponse handleUnknownRequest(UnknownRequest unknownRequest) {
+        return UnknownResponse.builder()
+                .language(resolveLanguage(unknownRequest.getChatId(), unknownRequest.getDetectedLanguage()))
+                .build();
     }
 
     private BotResponse handleProfileAction(ProfileActionRequest request) {

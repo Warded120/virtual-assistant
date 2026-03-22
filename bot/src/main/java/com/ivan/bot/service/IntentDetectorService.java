@@ -79,8 +79,6 @@ public class IntentDetectorService {
             if (viewScore > 0) return UpdateIntent.VIEW_PROFILE;
         }
 
-        // Also detect by action keyword alone with high confidence patterns
-        // e.g., "створи мені профіль" - has both create and profile keywords
         if (createScore > 0 && profileScore > 0) return UpdateIntent.CREATE_PROFILE;
         if (updateScore > 0 && profileScore > 0) return UpdateIntent.UPDATE_PROFILE;
         if (viewScore > 0 && profileScore > 0) return UpdateIntent.VIEW_PROFILE;
