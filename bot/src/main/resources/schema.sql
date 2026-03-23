@@ -26,3 +26,27 @@ COMMENT ON COLUMN user_profiles.favourite_city IS 'Default city for weather quer
 COMMENT ON COLUMN user_profiles.base_currency IS 'Default base currency for exchange rate queries';
 COMMENT ON COLUMN user_profiles.target_currency IS 'Default target currency for exchange rate queries';
 
+-- Reminders table for storing user reminders
+CREATE TABLE IF NOT EXISTS reminders (
+    id BIGSERIAL PRIMARY KEY,
+    chat_id BIGINT NOT NULL,
+    reminder_text VARCHAR(1000) NOT NULL,
+    reminder_date_time TIMESTAMP NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    notified BOOLEAN DEFAULT FALSE NOT NULL
+);
+
+-- Index for faster reminder lookups by chat_id
+CREATE INDEX IF NOT EXISTS idx_reminders_chat_id ON reminders(chat_id);
+
+-- Index for finding due reminders efficiently
+CREATE INDEX IF NOT EXISTS idx_reminders_due ON reminders(reminder_date_time, notified);
+
+COMMENT ON TABLE reminders IS 'Stores user reminders with scheduled notification times';
+COMMENT ON COLUMN reminders.id IS 'Unique identifier for the reminder';
+COMMENT ON COLUMN reminders.chat_id IS 'Telegram chat ID of the user who created the reminder';
+COMMENT ON COLUMN reminders.reminder_text IS 'The text/message of the reminder';
+COMMENT ON COLUMN reminders.reminder_date_time IS 'When the reminder should be triggered';
+COMMENT ON COLUMN reminders.created_at IS 'When the reminder was created';
+COMMENT ON COLUMN reminders.notified IS 'Whether the notification has been sent';
+

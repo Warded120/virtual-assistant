@@ -17,7 +17,7 @@ public class CurrencyRequestBuilder implements RequestBuilder {
     private final UserProfileService userProfileService;
 
     @Override
-    public CurrencyBotRequest buildRequest(String[] tokensLower, Long chatId) {
+    public CurrencyBotRequest buildRequest(String originalText, String[] tokensLower, Long chatId) {
         // Get user's preferred currencies as defaults
         String defaultBase = userProfileService.getBaseCurrency(chatId);
         String defaultTarget = userProfileService.getTargetCurrency(chatId);

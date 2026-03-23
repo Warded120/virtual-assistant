@@ -20,7 +20,7 @@ public class WeatherRequestBuilder implements RequestBuilder {
     private final UserProfileService userProfileService;
 
     @Override
-    public WeatherBotRequest buildRequest(String[] tokens, Long chatId) {
+    public WeatherBotRequest buildRequest(String originalText, String[] tokens, Long chatId) {
         String city = extractCity(tokens, chatId);
         return new WeatherBotRequest(city, chatId);
     }

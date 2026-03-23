@@ -21,4 +21,9 @@ public class OpenNlpConfig {
     public NameFinderME locationFinder() throws IOException {
         return new NameFinderME(ModelLoader.loadNerModel("en-ner-location.bin"));
     }
+
+    @Bean
+    public NameFinderME dateFinder() throws IOException {
+        return new NameFinderME(ModelLoader.loadNerModel("en-ner-date.bin"));
+    }
 }

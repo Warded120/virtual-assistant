@@ -5,17 +5,21 @@ import com.ivan.bot.client.weather.WeatherClient;
 import com.ivan.bot.dto.request.*;
 import com.ivan.bot.dto.response.BotResponse;
 import com.ivan.bot.dto.response.ProfileActionResponse;
+import com.ivan.bot.dto.response.ReminderResponse;
 import com.ivan.bot.dto.response.UnknownResponse;
+import com.ivan.bot.entity.Reminder;
 import com.ivan.bot.entity.UserProfile;
 import com.ivan.bot.enumeration.Language;
 import com.ivan.bot.enumeration.UpdateIntent;
 import com.ivan.bot.enumeration.UserState;
 import com.ivan.bot.fsm.UserStateManager;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class NlpDecisionService {
@@ -23,12 +27,14 @@ public class NlpDecisionService {
     private final WeatherClient weatherClient;
     private final UserProfileService userProfileService;
     private final UserStateManager stateManager;
+    private final ReminderService reminderService;
 
     public BotResponse decideResponse(BotRequest botRequest) {
         return switch (botRequest) {
             case WeatherBotRequest weatherRequest -> handleWeatherRequest(weatherRequest);
             case CurrencyBotRequest currencyRequest -> handleCurrencyRequest(currencyRequest);
             case ProfileActionRequest profileRequest -> handleProfileAction(profileRequest);
+            case ReminderRequest reminderRequest -> handleReminderRequest(reminderRequest);
             default -> handleUnknownRequest((UnknownRequest) botRequest);
         };
     }
@@ -49,6 +55,34 @@ public class NlpDecisionService {
         return UnknownResponse.builder()
                 .language(resolveLanguage(unknownRequest.getChatId(), unknownRequest.getDetectedLanguage()))
                 .build();
+    }
+
+    private BotResponse handleReminderRequest(ReminderRequest reminderRequest) {
+        Language language = resolveLanguage(reminderRequest.getChatId(), reminderRequest.getDetectedLanguage());
+
+        try {
+            Reminder reminder = reminderService.createReminder(
+                    reminderRequest.getChatId(),
+                    reminderRequest.getReminderText(),
+                    reminderRequest.getReminderDateTime()
+            );
+
+            log.info("Created reminder with id: {} for chatId: {}", reminder.getId(), reminder.getChatId());
+
+            return ReminderResponse.builder()
+                    .success(true)
+                    .reminderText(reminder.getReminderText())
+                    .reminderDateTime(reminder.getReminderDateTime())
+                    .language(language)
+                    .build();
+        } catch (Exception e) {
+            log.error("Failed to create reminder for chatId: {}", reminderRequest.getChatId(), e);
+            return ReminderResponse.builder()
+                    .success(false)
+                    .errorMessage(e.getMessage())
+                    .language(language)
+                    .build();
+        }
     }
 
     private BotResponse handleProfileAction(ProfileActionRequest request) {

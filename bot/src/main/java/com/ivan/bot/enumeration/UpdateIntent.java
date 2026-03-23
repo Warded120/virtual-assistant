@@ -6,5 +6,6 @@ public enum UpdateIntent {
     CREATE_PROFILE,
     UPDATE_PROFILE,
     VIEW_PROFILE,
+    REMINDER,
     UNKNOWN
 }

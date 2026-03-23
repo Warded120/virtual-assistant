@@ -6,22 +6,31 @@ import com.ivan.bot.dto.request.ProfileActionRequest;
 import com.ivan.bot.dto.request.UnknownRequest;
 import com.ivan.bot.enumeration.Language;
 import com.ivan.bot.enumeration.UpdateIntent;
-import lombok.RequiredArgsConstructor;
 import opennlp.tools.tokenize.TokenizerME;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import java.util.Arrays;
 
 @Component
-@RequiredArgsConstructor
 public class NlpPipelineService {
 
     private final TokenizerME tokenizer;
     private final IntentDetectorService intentDetectorService;
     private final RequestBuilder weatherRequestBuilder;
     private final RequestBuilder currencyRequestBuilder;
+    private final RequestBuilder reminderRequestBuilder;
 
-    public BotRequest parse(String sentence, Long chatId) {
-        return parse(sentence, chatId, null);
+    public NlpPipelineService(
+            TokenizerME tokenizer,
+            IntentDetectorService intentDetectorService,
+            @Qualifier("weatherRequestBuilder") RequestBuilder weatherRequestBuilder,
+            @Qualifier("currencyRequestBuilder") RequestBuilder currencyRequestBuilder,
+            @Qualifier("reminderRequestBuilder") RequestBuilder reminderRequestBuilder) {
+        this.tokenizer = tokenizer;
+        this.intentDetectorService = intentDetectorService;
+        this.weatherRequestBuilder = weatherRequestBuilder;
+        this.currencyRequestBuilder = currencyRequestBuilder;
+        this.reminderRequestBuilder = reminderRequestBuilder;
     }
 
     public BotRequest parse(String sentence, Long chatId, String telegramUsername) {
@@ -34,8 +43,9 @@ public class NlpPipelineService {
         Language detectedLanguage = intentDetectorService.detectLanguage(tokens);
 
         return switch (intent) {
-            case WEATHER -> weatherRequestBuilder.buildRequest(tokensLower, chatId);
-            case CURRENCY -> currencyRequestBuilder.buildRequest(tokensLower, chatId);
+            case WEATHER -> weatherRequestBuilder.buildRequest(sentence, tokensLower, chatId);
+            case CURRENCY -> currencyRequestBuilder.buildRequest(sentence, tokensLower, chatId);
+            case REMINDER -> reminderRequestBuilder.buildRequest(sentence, tokens, chatId);
             case CREATE_PROFILE, UPDATE_PROFILE, VIEW_PROFILE -> ProfileActionRequest.builder()
                     .chatId(chatId)
                     .telegramUsername(telegramUsername)

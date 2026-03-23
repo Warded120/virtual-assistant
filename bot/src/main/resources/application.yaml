@@ -33,3 +33,11 @@ api:
     key: ${OPENWEATHER_API_KEY}
   currency:
     base-url: https://api.exchangerate-api.com
+
+reminder:
+  scheduler:
+    fixedRate: PT1M
+  default:
+    hour: 9
+    minute: 0
+

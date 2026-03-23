@@ -45,6 +45,11 @@ public class IntentDetectorService {
             "профіль", "акаунт", "мене", "мій", "мої", "мною"
     );
 
+    private static final Set<String> REMINDER_KW = Set.of(
+            "remind", "reminder", "reminders", "notification", "notify", "alert", "schedule",
+            "нагадай", "нагадати", "нагадування", "нагадувати", "сповіщення", "сповісти", "сповістити"
+    );
+
     public UpdateIntent detect(String[] tokens) {
         int weatherScore = 0;
         int currencyScore = 0;
@@ -52,6 +57,7 @@ public class IntentDetectorService {
         int updateScore = 0;
         int viewScore = 0;
         int profileScore = 0;
+        int reminderScore = 0;
 
         for (String token : tokens) {
             if (token.length() > 3) {
@@ -67,10 +73,13 @@ public class IntentDetectorService {
                     viewScore++;
                 if (PROFILE_KW.contains(token) || PROFILE_KW.stream().anyMatch(token::contains))
                     profileScore++;
+                if (REMINDER_KW.contains(token) || REMINDER_KW.stream().anyMatch(token::contains))
+                    reminderScore++;
             }
         }
 
-        // Profile intents - need profile keyword + action keyword
+        if (reminderScore > 0) return UpdateIntent.REMINDER;
+
         boolean hasProfileContext = profileScore > 0;
 
         if (hasProfileContext) {
@@ -83,7 +92,6 @@ public class IntentDetectorService {
         if (updateScore > 0 && profileScore > 0) return UpdateIntent.UPDATE_PROFILE;
         if (viewScore > 0 && profileScore > 0) return UpdateIntent.VIEW_PROFILE;
 
-        // Weather and currency detection
         if (weatherScore == 0 && currencyScore == 0) return UpdateIntent.UNKNOWN;
         if (weatherScore > currencyScore) return UpdateIntent.WEATHER;
         if (currencyScore > weatherScore) return UpdateIntent.CURRENCY;
