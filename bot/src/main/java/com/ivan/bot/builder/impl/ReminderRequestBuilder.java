@@ -83,12 +83,16 @@ public class ReminderRequestBuilder implements RequestBuilder {
         LocalDate date = extractDate(tokens, originalText, language);
         LocalTime time = extractTime(originalText);
 
-        if (date == null) {
-            date = LocalDate.now().plusDays(1); // Default to tomorrow
-        }
-
         if (time == null) {
             time = LocalTime.of(defaultHour, defaultMinute); // Default time
+        }
+
+        if (date == null) {
+            if (LocalTime.now().isAfter(time)) {
+                date = LocalDate.now().plusDays(1); // If time has already passed today, set for tomorrow
+            } else {
+                date = LocalDate.now().plusDays(0); // else today
+            }
         }
 
         return LocalDateTime.of(date, time);
