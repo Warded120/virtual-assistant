@@ -50,6 +50,16 @@ public class IntentDetectorService {
             "нагадай", "нагадати", "нагадування", "нагадувати", "сповіщення", "сповісти", "сповістити"
     );
 
+    private static final Set<String> EVENT_KW = Set.of(
+            "event", "events", "calendar", "meeting", "appointment", "schedule",
+            "подія", "події", "подію", "календар", "зустріч", "нарада", "запланувати"
+    );
+
+    private static final Set<String> CREATE_EVENT_KW = Set.of(
+            "create", "make", "add", "new", "schedule", "plan",
+            "створи", "створити", "додай", "додати", "запланувати", "заплануй"
+    );
+
     public UpdateIntent detect(String[] tokens) {
         int weatherScore = 0;
         int currencyScore = 0;
@@ -58,6 +68,8 @@ public class IntentDetectorService {
         int viewScore = 0;
         int profileScore = 0;
         int reminderScore = 0;
+        int eventScore = 0;
+        int createEventScore = 0;
 
         for (String token : tokens) {
             if (token.length() > 3) {
@@ -75,10 +87,18 @@ public class IntentDetectorService {
                     profileScore++;
                 if (REMINDER_KW.contains(token) || REMINDER_KW.stream().anyMatch(token::contains))
                     reminderScore++;
+                if (EVENT_KW.contains(token) || EVENT_KW.stream().anyMatch(token::contains))
+                    eventScore++;
+                if (CREATE_EVENT_KW.contains(token) || CREATE_EVENT_KW.stream().anyMatch(token::contains))
+                    createEventScore++;
             }
         }
 
         if (reminderScore > 0) return UpdateIntent.REMINDER;
+
+        // Check for event intent - higher priority than profile actions
+        if (eventScore > 0 && createEventScore > 0) return UpdateIntent.EVENT;
+        if (eventScore > 0) return UpdateIntent.EVENT;
 
         boolean hasProfileContext = profileScore > 0;
 

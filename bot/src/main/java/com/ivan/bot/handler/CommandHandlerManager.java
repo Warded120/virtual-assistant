@@ -1,6 +1,7 @@
 package com.ivan.bot.handler;
 
 import com.ivan.bot.fsm.UserStateManager;
+import com.ivan.bot.handler.impl.CreateEventHandler;
 import com.ivan.bot.handler.impl.CreateProfileHandler;
 import com.ivan.bot.handler.impl.NlpHandler;
 import com.ivan.bot.handler.impl.ProfileHandler;
@@ -18,6 +19,7 @@ public class CommandHandlerManager {
     private final CreateProfileHandler createProfileHandler;
     private final UpdateProfileHandler updateProfileHandler;
     private final ProfileHandler profileHandler;
+    private final CreateEventHandler createEventHandler;
     private final UserStateManager stateManager;
 
     public SendMessage handle(Update update) {
@@ -34,6 +36,10 @@ public class CommandHandlerManager {
 
         if (stateManager.isInUpdateProfileFlow(chatId)) {
             return updateProfileHandler.handle(update);
+        }
+
+        if (stateManager.isInCreateEventFlow(chatId)) {
+            return createEventHandler.handle(update);
         }
 
         return nlpHandler.handle(update);
@@ -62,14 +68,16 @@ public class CommandHandlerManager {
                     .text("Welcome to Virtual Assistant Bot! 🤖\n\n" +
                           "I can help you with:\n" +
                           "• Weather forecasts - just ask about weather in any city\n" +
-                          "• Currency exchange rates - ask about currency conversions\n\n" +
+                          "• Currency exchange rates - ask about currency conversions\n" +
+                          "• Calendar events - create events and get .ics files\n\n" +
                           "Commands:\n" +
                           "/createProfile - Create your profile with preferences\n" +
                           "/updateProfile - Update your profile settings\n" +
                           "/profile - View your current profile\n" +
+                          "/event - Create a new calendar event\n" +
                           "/cancel - Cancel current operation\n" +
                           "/help - Show this help message\n\n" +
-                          "Or just type naturally, like 'What's the weather in London?' or 'Convert USD to EUR'")
+                          "Or just type naturally, like 'What's the weather in London?' or 'Create an event'")
                     .build();
             case "/help" -> SendMessage.builder()
                     .chatId(chatId.toString())
@@ -78,12 +86,18 @@ public class CommandHandlerManager {
                           "/createProfile - Create your profile\n" +
                           "/updateProfile - Update your profile\n" +
                           "/profile - View your profile\n" +
+                          "/event - Create a calendar event\n" +
                           "/cancel - Cancel current operation\n\n" +
                           "Natural Language:\n" +
                           "• Weather: 'Weather in Paris', 'What's the temperature in London?'\n" +
-                          "• Currency: 'USD to EUR', 'Convert dollars to euros'\n\n" +
+                          "• Currency: 'USD to EUR', 'Convert dollars to euros'\n" +
+                          "• Events: 'Create an event', 'Створи подію'\n\n" +
                           "Your saved preferences will be used as defaults!")
                     .build();
+            case "/event" -> {
+                stateManager.resetState(chatId);
+                yield createEventHandler.handle(update);
+            }
             default -> nlpHandler.handle(update);
         };
     }

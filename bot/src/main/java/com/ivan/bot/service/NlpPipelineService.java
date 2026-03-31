@@ -2,6 +2,7 @@ package com.ivan.bot.service;
 
 import com.ivan.bot.builder.RequestBuilder;
 import com.ivan.bot.dto.request.BotRequest;
+import com.ivan.bot.dto.request.EventRequest;
 import com.ivan.bot.dto.request.ProfileActionRequest;
 import com.ivan.bot.dto.request.UnknownRequest;
 import com.ivan.bot.enumeration.Language;
@@ -46,6 +47,10 @@ public class NlpPipelineService {
             case WEATHER -> weatherRequestBuilder.buildRequest(sentence, tokensLower, chatId);
             case CURRENCY -> currencyRequestBuilder.buildRequest(sentence, tokensLower, chatId);
             case REMINDER -> reminderRequestBuilder.buildRequest(sentence, tokens, chatId);
+            case EVENT -> EventRequest.builder()
+                    .chatId(chatId)
+                    .detectedLanguage(detectedLanguage)
+                    .build();
             case CREATE_PROFILE, UPDATE_PROFILE, VIEW_PROFILE -> ProfileActionRequest.builder()
                     .chatId(chatId)
                     .telegramUsername(telegramUsername)

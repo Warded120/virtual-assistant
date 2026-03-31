@@ -50,3 +50,28 @@ COMMENT ON COLUMN reminders.reminder_date_time IS 'When the reminder should be t
 COMMENT ON COLUMN reminders.created_at IS 'When the reminder was created';
 COMMENT ON COLUMN reminders.notified IS 'Whether the notification has been sent';
 
+-- Events table for storing calendar events
+CREATE TABLE IF NOT EXISTS events (
+    id BIGSERIAL PRIMARY KEY,
+    chat_id BIGINT NOT NULL,
+    title VARCHAR(500) NOT NULL,
+    start_date_time TIMESTAMP NOT NULL,
+    end_date_time TIMESTAMP NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    notified BOOLEAN DEFAULT FALSE NOT NULL
+);
+
+-- Index for faster event lookups by chat_id
+CREATE INDEX IF NOT EXISTS idx_events_chat_id ON events(chat_id);
+
+-- Index for finding due events efficiently
+CREATE INDEX IF NOT EXISTS idx_events_due ON events(start_date_time, notified);
+
+COMMENT ON TABLE events IS 'Stores calendar events with start and end times';
+COMMENT ON COLUMN events.id IS 'Unique identifier for the event';
+COMMENT ON COLUMN events.chat_id IS 'Telegram chat ID of the user who created the event';
+COMMENT ON COLUMN events.title IS 'The title/name of the event';
+COMMENT ON COLUMN events.start_date_time IS 'When the event starts';
+COMMENT ON COLUMN events.end_date_time IS 'When the event ends';
+COMMENT ON COLUMN events.created_at IS 'When the event was created';
+COMMENT ON COLUMN events.notified IS 'Whether the notification has been sent';

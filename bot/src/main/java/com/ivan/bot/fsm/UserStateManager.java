@@ -59,5 +59,10 @@ public class UserStateManager {
         UserState state = getState(chatId);
         return state.name().startsWith("UPDATE_PROFILE_");
     }
+
+    public boolean isInCreateEventFlow(Long chatId) {
+        UserState state = getState(chatId);
+        return state.name().startsWith("CREATE_EVENT_");
+    }
 }
 

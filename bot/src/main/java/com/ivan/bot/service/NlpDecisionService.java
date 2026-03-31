@@ -4,6 +4,7 @@ import com.ivan.bot.client.currency.CurrencyClient;
 import com.ivan.bot.client.weather.WeatherClient;
 import com.ivan.bot.dto.request.*;
 import com.ivan.bot.dto.response.BotResponse;
+import com.ivan.bot.dto.response.EventResponse;
 import com.ivan.bot.dto.response.ProfileActionResponse;
 import com.ivan.bot.dto.response.ReminderResponse;
 import com.ivan.bot.dto.response.UnknownResponse;
@@ -35,6 +36,7 @@ public class NlpDecisionService {
             case CurrencyBotRequest currencyRequest -> handleCurrencyRequest(currencyRequest);
             case ProfileActionRequest profileRequest -> handleProfileAction(profileRequest);
             case ReminderRequest reminderRequest -> handleReminderRequest(reminderRequest);
+            case EventRequest eventRequest -> handleEventRequest(eventRequest);
             default -> handleUnknownRequest((UnknownRequest) botRequest);
         };
     }
@@ -148,5 +150,17 @@ public class NlpDecisionService {
             return userProfileService.getLanguage(chatId);
         }
         return detectedLanguage != null ? detectedLanguage : Language.ENGLISH;
+    }
+
+    private BotResponse handleEventRequest(EventRequest eventRequest) {
+        Language language = resolveLanguage(eventRequest.getChatId(), eventRequest.getDetectedLanguage());
+
+        // Start FSM for event creation
+        stateManager.setState(eventRequest.getChatId(), UserState.CREATE_EVENT_AWAITING_TITLE);
+
+        return EventResponse.builder()
+                .flowStarted(true)
+                .language(language)
+                .build();
     }
 }

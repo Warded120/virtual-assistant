@@ -7,5 +7,6 @@ public enum UpdateIntent {
     UPDATE_PROFILE,
     VIEW_PROFILE,
     REMINDER,
+    EVENT,
     UNKNOWN
 }

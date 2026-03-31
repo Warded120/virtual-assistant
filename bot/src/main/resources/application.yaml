@@ -41,3 +41,11 @@ reminder:
     hour: 9
     minute: 0
 
+event:
+  scheduler:
+    fixedRate: PT1M
+  default:
+    hour: 9
+    minute: 0
+    duration: 60
+
